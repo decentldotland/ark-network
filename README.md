@@ -185,5 +185,12 @@ Reponse example: return the validators addresses and the smart contracts address
 }
 ```
 
+## Tech-Stack
+- [Vyper](https://github.com/vyperlang/vyper)
+- [SmartWeave](https://github.com/ArweaveTeam/SmartWeave)
+- [redstone-smartweave](https://github.com/redstone-finance)
+- [Infura](https://infura.io/)
+- ethersjs & web3js
+
 ## License
 This project is licensed under the [MIT license](./LICENSE).
