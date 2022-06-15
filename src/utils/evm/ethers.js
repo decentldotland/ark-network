@@ -15,16 +15,8 @@ const ArkContract = new ethers.Contract(
 export async function getTransaction(txid) {
   try {
     const tx = await provider.getTransactionReceipt(txid);
-    console.log(tx)
     return tx;
   } catch (error) {
     console.log(error);
   }
 }
-
-// event listener
-// ArkContract.on("LinkIdentity", (evmAddress, arweaveAddress, arweaveAddress2, event) => {
-//   console.log(arweaveAddress2)
-//   console.log(event)
-
-// });
