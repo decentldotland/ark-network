@@ -1,9 +1,15 @@
 import axios from "axios";
-import { handleUsername } from "./verify.js";
+import { handleUsername, decodeUsername } from "./verify.js";
 
 export async function getProfileBio(username) {
   try {
-    const usrname = await handleUsername(username);
+    const decodedUsername = await decodeUsername(username);
+
+    if (!decodedUsername) {
+      return false;
+    }
+
+    const usrname = await handleUsername(decodedUsername);
     const acc = await axios.get(`https://telegram.me/${usrname}`);
     const start = acc.data.indexOf(`<meta name="twitter:description"`);
     const end = acc.data.indexOf(
@@ -16,5 +22,6 @@ export async function getProfileBio(username) {
     return res.trim();
   } catch (error) {
     console.log(error);
+    return false;
   }
 }
