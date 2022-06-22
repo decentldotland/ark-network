@@ -1,22 +1,21 @@
 /**
- * 
- * 
- * 
+ *
+ *
+ *
  *         ░█████╗░██████╗░██╗░░██╗        ███╗░░██╗███████╗████████╗░██╗░░░░░░░██╗░█████╗░██████╗░██╗░░██╗
  *         ██╔══██╗██╔══██╗██║░██╔╝        ████╗░██║██╔════╝╚══██╔══╝░██║░░██╗░░██║██╔══██╗██╔══██╗██║░██╔╝
  *         ███████║██████╔╝█████═╝░        ██╔██╗██║█████╗░░░░░██║░░░░╚██╗████╗██╔╝██║░░██║██████╔╝█████═╝░
  *         ██╔══██║██╔══██╗██╔═██╗░        ██║╚████║██╔══╝░░░░░██║░░░░░████╔═████║░██║░░██║██╔══██╗██╔═██╗░
  *         ██║░░██║██║░░██║██║░╚██╗        ██║░╚███║███████╗░░░██║░░░░░╚██╔╝░╚██╔╝░╚█████╔╝██║░░██║██║░╚██╗
  *         ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝        ╚═╝░░╚══╝╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝
- * 
+ *
  * @title: Ark Network Arweave oracle
- * @version 0.0.2
+ * @version 0.0.3
  * @author: charmful0x
  * @license: MIT
  * @website decent.land
- * 
+ *
  **/
-
 
 export async function handle(state, action) {
   const input = action.input;
@@ -35,7 +34,6 @@ export async function handle(state, action) {
   const ERROR_INVALID_ARWEAVE_ADDRESS = "invalid Arweave address syntax";
   const ERROR_CALLER_NOT_ADMIN = "invalid function caller";
   const ERROR_USERNAME_NOT_STRING = "Telegram username must be a string";
-  const ERROR_INVALID_TELEGRAM_SYNTAX = "invalid Telegram username syntax";
   const ERROR_FUNCTION_MISSING_ARGUMENTS =
     "None of the function's required paramters have been passed in";
   const ERROR_INVALID_VALIDITY = "the admin has passed an invalid validity";
@@ -45,16 +43,16 @@ export async function handle(state, action) {
   if (input.function === "linkIdentity") {
     const address = input?.address;
     const verificationReq = input?.verificationReq;
-    let telegram = input?.telegram;
+    let telegram_enc = input?.telegram_enc; // telegram username passed under AES encryption
 
-    if (!address && !verificationReq && !telegram) {
+    if (!address && !verificationReq && !telegram_enc) {
       throw new ContractError(ERROR_FUNCTION_MISSING_ARGUMENTS);
     }
 
     const userIndex = _getUserIndex(caller);
 
-    if (telegram) {
-      telegram = _validateTelegramUsername(telegram);
+    if (telegram_enc) {
+      telegram_enc = _validateTelegramUsername(telegram_enc);
     }
 
     if (userIndex === -1) {
@@ -65,7 +63,7 @@ export async function handle(state, action) {
         arweave_address: caller,
         evm_address: address,
         verification_req: verificationReq,
-        telegram_username: telegram ? telegram : null,
+        telegram_username: telegram_enc ? telegram_enc : null,
         identity_id: SmartWeave.transaction.id,
         is_verified: false,
         is_evaluated: false,
@@ -89,9 +87,9 @@ export async function handle(state, action) {
       identities[userIndex].identity_id = SmartWeave.transaction.id;
     }
 
-    if (telegram) {
+    if (telegram_enc) {
       // telegram username got already checked
-      identities[userIndex].telegram_username = telegram;
+      identities[userIndex].telegram_username = telegram_enc;
       // reset the account verification state
       identities[userIndex].is_evaluated = false;
       identities[userIndex].is_verified = false;
@@ -116,7 +114,7 @@ export async function handle(state, action) {
 
     const identityIndex = _getUserIndex(identityOf);
 
-    ContractAssert([true, false].includes(validity), ERROR_INVALID_VALIDITY)
+    ContractAssert([true, false].includes(validity), ERROR_INVALID_VALIDITY);
     ContractAssert(identityIndex !== -1, ERROR_USER_NOT_FOUND);
     ContractAssert(
       identities[identityIndex].last_modification < SmartWeave.block.height + 3,
@@ -161,20 +159,13 @@ export async function handle(state, action) {
     ContractAssert(admins.includes(address), ERROR_CALLER_NOT_ADMIN);
   }
 
-  function _validateTelegramUsername(username) {
-    ContractAssert(typeof username === "string", ERROR_USERNAME_NOT_STRING);
-    // trim and remove whitespaces from the string's characters
-    const trimmed = username
-      .trim()
-      .split("")
-      .filter((char) => char !== " ")
-      .join("");
-    const isValid =
-      /.*\B@(?=\w{5,32}\b)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*.*/gm.test(trimmed);
+  function _validateTelegramUsername(encrypted_username) {
+    ContractAssert(
+      typeof encrypted_username === "string",
+      ERROR_USERNAME_NOT_STRING
+    );
 
-    ContractAssert(isValid, ERROR_INVALID_TELEGRAM_SYNTAX);
-
-    return trimmed;
+    return encrypted_username.trim();
   }
 
   function _getUserIndex(address) {
