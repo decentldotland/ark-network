@@ -36,7 +36,6 @@ app.get("/ark/network/stats", async (req, res) => {
 app.get("/ark/network/addresses", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const addresses = await getNetworkAddresses()
-  console.log(addresses)
   res.send(addresses);
 });
 
