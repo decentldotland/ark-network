@@ -132,25 +132,15 @@ Reponse example: return a cached state of the Ark oracle smartweave oracle addre
 {
   "res": [
     {
-      "arweave_address": "vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0",
-      "evm_address": "0x13c36f5d2df9ec3472ca182c714fa4ffcdb4bdea",
-      "verification_req": "0xeb659b796ce3837c4d3cc42ee551b3d593c76c78873e99ac23c610a21427a662",
-      "telegram_username": "@AkaPepe007",
-      "identity_id": "jzrSeqx3IzNMnEtspv47yhkOrPhz3TbAMLN8QhiNPwQ",
-      "is_verified": true,
-      "is_evaluated": true,
-      "last_modification": 953271,
-      "validator": "vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0"
-    },
-    {
       "arweave_address": "AeK_9yb3f3HEK1Gzwky6tIx8ujW9Pxr_FkhCkWftFtw",
       "evm_address": "0x197f818c1313dc58b32d88078ecdfb40ea822614",
       "verification_req": "0x9c55114650dd08b7aec71e1152dc77eea05b499b836a08add2f0d4bd49e2b095",
-      "telegram_username": null,
-      "identity_id": "fAynsvkC8NG8JcEYkqonILmor2jHsIB07fSJRzLyqSo",
+      "telegram_username": "U2FsdGVkX18FU42ezv3trajaYMcQdE/qnQDeAK6nxu8=",
+      "identity_id": "NNsW8RsQycw-zpzGgWxeW5RzdUCmpU8mGMHq-oK3Yls",
       "is_verified": true,
       "is_evaluated": true,
-      "last_modification": 953928,
+      "last_modification": 959713,
+      "last_validation": 959713,
       "validator": "vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0"
     }
   ]
@@ -162,7 +152,7 @@ Reponse example: return a cached state of the Ark oracle smartweave oracle addre
 
 Response example:
 ```json
-{"users_count":2,"hashed_state":"23df5db30b8596bf6b916bdd946093fe1741363376de78981f8670031e84715c","last_cached_block":954308}
+{"users_count":1,"hashed_state":"23df5db30b8596bf6b916bdd946093fe1741363376de78981f8670031e84715c","last_cached_block":954308}
 
 ```
 
@@ -175,7 +165,7 @@ Reponse example: return the validators addresses and the smart contracts address
 {
   "validators": ["vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0"],
   "arweave_oracle_addr": {
-    "addr": "YPf5wvXXnVk4Ats9CpllqlwdmwFHTZc1x-w4H1tz0no",
+    "addr": "qP614umsvOo9Szvl-xqvnXH0xLOg2eKOsLYnKx2l5SA",
     "network": "arweave-mainnet"
   },
   "evm_oracle_addr": {
