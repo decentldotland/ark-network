@@ -117,7 +117,7 @@ The node will `GET` the user's telegram profile by hitting his username, extract
 
 | Contract  | Source Code | Deployment | Network |
 | ------------- |:-------------:| :-------------: | :-------------: |
-| Arweave Oracle SWC      | [ark-contracts/arweave](./ark-contracts/arweave)     |   [Ukw2TLpWw5lqKD6LVpLE8cx4hSZKeGmSLjBfZqUFs08](https://viewblock.io/arweave/address/Ukw2TLpWw5lqKD6LVpLE8cx4hSZKeGmSLjBfZqUFs08) | Arweave Mainnet |
+| Arweave Oracle SWC      | [ark-contracts/arweave](./ark-contracts/arweave)     |   [qP614umsvOo9Szvl-xqvnXH0xLOg2eKOsLYnKx2l5SA](https://viewblock.io/arweave/address/qP614umsvOo9Szvl-xqvnXH0xLOg2eKOsLYnKx2l5SA) | Arweave Mainnet |
 | EVM Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://goerli.etherscan.io/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a)          | Goerli Testnet |
 
 ## Ark Network API Methods
