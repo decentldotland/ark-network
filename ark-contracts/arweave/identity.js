@@ -10,7 +10,7 @@
  *         ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝        ╚═╝░░╚══╝╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝
  *
  * @title: Ark Network Arweave oracle
- * @version 0.0.3
+ * @version 0.0.4
  * @author: charmful0x
  * @license: MIT
  * @website decent.land
@@ -23,6 +23,7 @@ export async function handle(state, action) {
 
   const admins = state.admins;
   const identities = state.identities;
+  const networks = state.networks;
 
   const ERROR_INVALID_DATA_TYPE = "EVM address/TXID must be a string";
   const ERROR_INVALID_EVM_ADDRESS_SYNTAX = "invalid EVM address syntax";
@@ -37,15 +38,21 @@ export async function handle(state, action) {
   const ERROR_FUNCTION_MISSING_ARGUMENTS =
     "None of the function's required paramters have been passed in";
   const ERROR_INVALID_VALIDITY = "the admin has passed an invalid validity";
+  const ERROR_INVALID_NETWORK_SUPPLIED = "network not supported";
+  const ERROR_NETWORK_ALREADY_ADDED =
+    "the given network has been already added";
+  const ERROR_NETWORK_NOT_EXIST =
+    "cannot find a network with the given ID-name";
 
   // USERS FUNCTION
 
   if (input.function === "linkIdentity") {
     const address = input?.address;
     const verificationReq = input?.verificationReq;
+    const network = input.network;
     let telegram_enc = input?.telegram_enc; // telegram username passed under AES encryption
 
-    if (!address && !verificationReq && !telegram_enc) {
+    if (!address && !verificationReq && !telegram_enc && !network) {
       throw new ContractError(ERROR_FUNCTION_MISSING_ARGUMENTS);
     }
 
@@ -57,12 +64,14 @@ export async function handle(state, action) {
 
     if (userIndex === -1) {
       _validateEvmAddress(address);
+      _validateNetwork(network);
       _validateEvmTx(verificationReq);
 
       identities.push({
         arweave_address: caller,
         evm_address: address,
         verification_req: verificationReq,
+        ver_req_network: network,
         telegram_username: telegram_enc ? telegram_enc : null,
         identity_id: SmartWeave.transaction.id,
         is_verified: false,
@@ -76,10 +85,12 @@ export async function handle(state, action) {
     if (address) {
       _validateEvmAddress(address);
       _validateEvmTx(verificationReq);
+      _validateNetwork(network);
       // updating the address means that
       // the verificationReq should exist
       identities[userIndex].evm_address = address;
       identities[userIndex].verification_req = verificationReq;
+      identities[userIndex].ver_req_network = network;
       // reset the account verification state
       identities[userIndex].is_evaluated = false;
       identities[userIndex].is_verified = false;
@@ -129,6 +140,29 @@ export async function handle(state, action) {
     return { state };
   }
 
+  if (input.function === "addNetwork") {
+    const network = input.network;
+
+    _isAdmin(caller);
+    ContractAssert(!networks.includes(network), ERROR_NETWORK_ALREADY_ADDED);
+
+    networks.push(network);
+
+    return { state };
+  }
+
+  if (input.function === "removeNetwork") {
+    const network = input.network;
+
+    _isAdmin(caller);
+    const networkIndex = network.findIndex((net) => net === network);
+
+    ContractAssert(networkIndex !== -1, ERROR_NETWORK_NOT_EXIST);
+    networks.splice(networkIndex, 1);
+
+    return { state };
+  }
+
   // HELPER FUNCTIONS
 
   function _validateEvmAddress(address) {
@@ -173,5 +207,9 @@ export async function handle(state, action) {
       (usr) => usr.arweave_address === address
     );
     return index;
+  }
+
+  function _validateNetwork(network) {
+    ContractAssert(networks.includes(network), ERROR_INVALID_NETWORK_SUPPLIED);
   }
 }
