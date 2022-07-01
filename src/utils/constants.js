@@ -1,7 +1,16 @@
 import "./setEnv.js";
-// export const ARWEAVE_ORACLE_ADDRESS = "YPf5wvXXnVk4Ats9CpllqlwdmwFHTZc1x-w4H1tz0no" ; v0.0.1
-export const ARWEAVE_ORACLE_ADDRESS = "Ukw2TLpWw5lqKD6LVpLE8cx4hSZKeGmSLjBfZqUFs08"; // Arweave Mainnet
-export const EVM_ORACLE_ADDRESS = "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A"; // Goerli Testnet
+// Arweave Contracts
+// export const ARWEAVE_ORACLE_ADDRESS = "qP614umsvOo9Szvl-xqvnXH0xLOg2eKOsLYnKx2l5SA" // v0.0.3
+export const ARWEAVE_ORACLE_ADDRESS = "i9Q9Y14HnJUmnSOVdxlPQkHHsT0W6kTv9PXCblZ_kAA"; // v0.0.4
+// EVM ADDRESSES
+export const ETH_ORACLE_ADDRESS = "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A"; // Goerli Testnet && ETH Mainnet
+export const AURORA_TESTNET_ADDRESS = "0xfb0200C27185185D7DEe0403D5f102ADb59B7c34";
+export const EVM_ORACLES_CONTRACTS = [ETH_ORACLE_ADDRESS, AURORA_TESTNET_ADDRESS];
+
+// RPCs
 export const RPC_PROVIDER_URL = "http://127.0.0.1:9545/";
-export const GOERLI_RPC = `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`
+export const GOERLI_ETH_RPC = `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`;
+export const MAINNET_ETH_RPC = `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`;
+export const AURORA_TESTNET_RPC = `https://aurora-testnet.infura.io/v3/${process.env.INFURA_API_KEY}`;
 export const RPC_PORT = 9545;
+
