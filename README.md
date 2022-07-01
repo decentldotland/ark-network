@@ -63,7 +63,7 @@ truffle migrate --network ganache
 
 1- The user invoke `linkIdentity("ARWEAVE_ADDRESS")` function in the EVM registry contract.
 
-2- The user invoke `linkIdentity("EVM_ADDRESS", "EVM_INVOC_TXID_FROM_1")` function in the Arweave oracle address.
+2- The user invoke `linkIdentity("EVM_ADDRESS", "EVM_INVOC_TXID_FROM_1", "EVM_NETWORK_KEY)` function in the Arweave oracle address.
 
 3- The non-verified identity get added in the Arweave oracle address:
 
@@ -72,9 +72,10 @@ truffle migrate --network ganache
 {
   "arweave_address": "AeK_9yb3f3HEK1Gzwky6tIx8ujW9Pxr_FkhCkWftFtw", // the TX caller address
   "evm_address": "0x197f818c1313dc58b32d88078ecdfb40ea822614", // the EVM identity to be verified
-  "verification_req": "0x9c55114650dd08b7aec71e1152dc77eea05b499b836a08add2f0d4bd49e2b095", // TXID of the interaction with the EVM sc
+  "verification_req": "0x5030f945f09e39af85986807293220b1daa736fdee6b490ae78eb150f155072d", // TXID of the interaction with the EVM sc
+  "ver_req_network": "AURORA-TESTNET", // the network KEY, where the verification_req took place
   "telegram_username": null,
-  "identity_id": "fAynsvkC8NG8JcEYkqonILmor2jHsIB07fSJRzLyqSo", // auto-generated, the SWC interactionTX.ID
+  "identity_id": "ALcuqH1FfQvmx-8lL9P_fZJQQp0XUkcg7Sw5-PH9R7Q", // auto-generated, the SWC interactionTX.ID
   "is_verified": false, // initial value
   "is_evaluated": false, // initial value
   "last_modification": 953910
@@ -98,14 +99,17 @@ truffle migrate --network ganache
 {
   "arweave_address": "AeK_9yb3f3HEK1Gzwky6tIx8ujW9Pxr_FkhCkWftFtw",
   "evm_address": "0x197f818c1313dc58b32d88078ecdfb40ea822614",
-  "verification_req": "0x9c55114650dd08b7aec71e1152dc77eea05b499b836a08add2f0d4bd49e2b095",
+  "verification_req": "0x5030f945f09e39af85986807293220b1daa736fdee6b490ae78eb150f155072d",
+  "ver_req_network": "AURORA-TESTNET",
   "telegram_username": null,
-  "identity_id": "fAynsvkC8NG8JcEYkqonILmor2jHsIB07fSJRzLyqSo",
+  "identity_id": "ALcuqH1FfQvmx-8lL9P_fZJQQp0XUkcg7Sw5-PH9R7Q",
   "is_verified": true,
   "is_evaluated": true,
-  "last_modification": 953928,
+  "last_modification": 965730,
+  "last_validation": 965730,
   "validator": "vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0"
 }
+
 ```
 ### Additional Verification: Telegram
 
@@ -117,8 +121,11 @@ The node will `GET` the user's telegram profile by hitting his username, extract
 
 | Contract  | Source Code | Deployment | Network |
 | ------------- |:-------------:| :-------------: | :-------------: |
-| Arweave Oracle SWC      | [ark-contracts/arweave](./ark-contracts/arweave)     |   [qP614umsvOo9Szvl-xqvnXH0xLOg2eKOsLYnKx2l5SA](https://viewblock.io/arweave/address/qP614umsvOo9Szvl-xqvnXH0xLOg2eKOsLYnKx2l5SA) | Arweave Mainnet |
-| EVM Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://goerli.etherscan.io/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a)          | Goerli Testnet |
+| Arweave Oracle SWC   v0.0.3 (ETH Goerli only)   | -     |   [qP614umsvOo9Szvl-xqvnXH0xLOg2eKOsLYnKx2l5SA](https://viewblock.io/arweave/tx/qP614umsvOo9Szvl-xqvnXH0xLOg2eKOsLYnKx2l5SA) | Arweave Mainnet |
+| Arweave Oracle SWC   v0.0.4 (multichain support)   | [ark-contracts/arweave](./ark-contracts/arweave)     |   [i9Q9Y14HnJUmnSOVdxlPQkHHsT0W6kTv9PXCblZ_kAA](https://viewblock.io/arweave/tx/i9Q9Y14HnJUmnSOVdxlPQkHHsT0W6kTv9PXCblZ_kAA) | Arweave Mainnet |
+| Goerli Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://goerli.etherscan.io/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a)          | Goerli Testnet |
+| Aurora Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xfb0200C27185185D7DEe0403D5f102ADb59B7c34](https://testnet.aurorascan.dev/address/0xfb0200c27185185d7dee0403d5f102adb59b7c34)          | Aurora Testnet |
+
 
 ## Ark Network API Methods
 set of public API methods for the Ark Network node
@@ -134,17 +141,32 @@ Reponse example: return a cached state of the Ark oracle smartweave oracle addre
     {
       "arweave_address": "AeK_9yb3f3HEK1Gzwky6tIx8ujW9Pxr_FkhCkWftFtw",
       "evm_address": "0x197f818c1313dc58b32d88078ecdfb40ea822614",
-      "verification_req": "0x9c55114650dd08b7aec71e1152dc77eea05b499b836a08add2f0d4bd49e2b095",
-      "telegram_username": "U2FsdGVkX18FU42ezv3trajaYMcQdE/qnQDeAK6nxu8=",
-      "identity_id": "NNsW8RsQycw-zpzGgWxeW5RzdUCmpU8mGMHq-oK3Yls",
+      "verification_req": "0x5030f945f09e39af85986807293220b1daa736fdee6b490ae78eb150f155072d",
+      "ver_req_network": "AURORA-TESTNET",
+      "telegram_username": null,
+      "identity_id": "ALcuqH1FfQvmx-8lL9P_fZJQQp0XUkcg7Sw5-PH9R7Q",
+      "is_verified": false,
+      "is_evaluated": true,
+      "last_modification": 965730,
+      "last_validation": 965730,
+      "validator": "vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0"
+    },
+    {
+      "arweave_address": "vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0",
+      "evm_address": "0x197f818c1313dc58b32d88078ecdfb40ea822614",
+      "verification_req": "0x5030f945f09e39af85986807293220b1daa736fdee6b490ae78eb150f155072d",
+      "ver_req_network": "AURORA-TESTNET",
+      "telegram_username": null,
+      "identity_id": "ZEJzVwFjdZPkuJiU6peJFF4FshYu5lAAgXn3jo__eE8",
       "is_verified": true,
       "is_evaluated": true,
-      "last_modification": 959713,
-      "last_validation": 959713,
+      "last_modification": 965736,
+      "last_validation": 965736,
       "validator": "vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0"
     }
   ]
 }
+
 ```
 
 ### 2- get network stats
@@ -152,7 +174,7 @@ Reponse example: return a cached state of the Ark oracle smartweave oracle addre
 
 Response example:
 ```json
-{"users_count":1,"hashed_state":"23df5db30b8596bf6b916bdd946093fe1741363376de78981f8670031e84715c","last_cached_block":954308}
+{"users_count":1,"hashed_state":"9cc5786936b0f5c3507a3f87594e562d3367ee8e6c86417c7c5110807038711e","last_cached_block":965761}
 
 ```
 
@@ -165,22 +187,20 @@ Reponse example: return the validators addresses and the smart contracts address
 {
   "validators": ["vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0"],
   "arweave_oracle_addr": {
-    "addr": "qP614umsvOo9Szvl-xqvnXH0xLOg2eKOsLYnKx2l5SA",
+    "addr": "i9Q9Y14HnJUmnSOVdxlPQkHHsT0W6kTv9PXCblZ_kAA",
     "network": "arweave-mainnet"
   },
-  "evm_oracle_addr": {
+  "eth_oracle_addr": {
     "addr": "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A",
     "network": "eth-goerli"
+  },
+  "aurora_oracle_addr": {
+    "addr": "0xfb0200C27185185D7DEe0403D5f102ADb59B7c34",
+    "network": "aurora-testnet"
   }
 }
-```
 
-## Tech-Stack
-- [Vyper](https://github.com/vyperlang/vyper)
-- [SmartWeave](https://github.com/ArweaveTeam/SmartWeave)
-- [redstone-smartweave](https://github.com/redstone-finance)
-- [Infura](https://infura.io/)
-- ethersjs & web3js
+```
 
 ## License
 This project is licensed under the [MIT license](./LICENSE).
