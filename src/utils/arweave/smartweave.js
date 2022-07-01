@@ -1,6 +1,6 @@
 import { getTransaction } from "../evm/ethers.js";
 import { checkTopicAgainstAddress } from "../evm/web3.js";
-import { ARWEAVE_ORACLE_ADDRESS, EVM_ORACLE_ADDRESS } from "../constants.js";
+import { ARWEAVE_ORACLE_ADDRESS, EVM_ORACLES_CONTRACTS } from "../constants.js";
 import { SmartWeaveNodeFactory, LoggerFactory } from "redstone-smartweave";
 import { verifyUser } from "../../telegram/verify.js";
 import { red, green } from "../chalk.js";
@@ -30,11 +30,15 @@ export async function checkAndVerifyUser(userObject) {
       verification_req,
       identity_id,
       telegram_username,
+      ver_req_network,
     } = userObject;
-    const evmVerificationReq = await getTransaction(verification_req);
+    const evmVerificationReq = await getTransaction(
+      verification_req,
+      ver_req_network
+    );
 
-    if (evmVerificationReq.to !== EVM_ORACLE_ADDRESS) {
-      throw new Error(`invalid contract interaction`);
+    if (!EVM_ORACLES_CONTRACTS.includes(evmVerificationReq.to)) {
+      throw new Error(`invalid contract interaction/address`);
     }
 
     if (telegram_username) {
@@ -47,6 +51,7 @@ export async function checkAndVerifyUser(userObject) {
     }
 
     const hashedArAddressLog = evmVerificationReq.logs[0].topics[2];
+
     const validity = await checkTopicAgainstAddress(
       hashedArAddressLog,
       arweave_address
@@ -79,17 +84,25 @@ export async function checkAndVerifyUser(userObject) {
 
     if (identityValidity) {
       console.log(
-        green(`--> identity verified: ${arweave_address} <-> ${evm_address}`)
+        green(
+          `\n\n--> identity verified: ${arweave_address} <-> ${evm_address} || network: ${userObject.ver_req_network}`
+        )
       );
       console.log(
-        green(`--> verified identity ID ${identity_id} | verification TXID: ${tx.id}\n\n`)
+        green(
+          `--> verified identity ID ${identity_id} | verification TXID: ${tx.id}\n\n`
+        )
       );
     } else {
       console.log(
-        red(`--> verification failed: ${arweave_address} <-> ${evm_address}`)
+        red(
+          `\n\n--> verification failed: ${arweave_address} <-> ${evm_address} || network: ${userObject.ver_req_network}`
+        )
       );
       console.log(
-        red(`--> failed identity ID ${identity_id} | failing verification TXID: ${tx.id}\n\n`)
+        red(
+          `--> failed identity ID ${identity_id} | failing verification TXID: ${tx.id}\n\n`
+        )
       );
     }
   } catch (error) {
