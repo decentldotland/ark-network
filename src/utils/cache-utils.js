@@ -1,5 +1,10 @@
 import { cacheNode } from "./polling.js";
-import { ARWEAVE_ORACLE_ADDRESS, ETH_ORACLE_ADDRESS, AURORA_TESTNET_ADDRESS } from "./constants.js";
+import {
+  ARWEAVE_ORACLE_ADDRESS,
+  ETH_ORACLE_ADDRESS,
+  AURORA_TESTNET_ADDRESS,
+  BSC_TESTNET_ADDRESS,
+} from "./constants.js";
 import base64url from "base64url";
 
 export async function getOracleState() {
@@ -65,6 +70,10 @@ export async function getNetworkAddresses() {
       aurora_oracle_addr: {
         addr: AURORA_TESTNET_ADDRESS,
         network: "aurora-testnet",
+      },
+      bsc_oracle_addr: {
+        addr: BSC_TESTNET_ADDRESS,
+        network: "bsc-testnet",
       },
     };
   } catch (error) {
