@@ -125,7 +125,7 @@ The node will `GET` the user's telegram profile by hitting his username, extract
 | Arweave Oracle SWC   v0.0.4 (multichain support)   | [ark-contracts/arweave](./ark-contracts/arweave)     |   [i9Q9Y14HnJUmnSOVdxlPQkHHsT0W6kTv9PXCblZ_kAA](https://viewblock.io/arweave/tx/i9Q9Y14HnJUmnSOVdxlPQkHHsT0W6kTv9PXCblZ_kAA) | Arweave Mainnet |
 | Goerli Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://goerli.etherscan.io/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a)          | Goerli Testnet |
 | Aurora Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xfb0200C27185185D7DEe0403D5f102ADb59B7c34](https://testnet.aurorascan.dev/address/0xfb0200c27185185d7dee0403d5f102adb59b7c34)          | Aurora Testnet |
-
+| BSC Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0x90f36C4Fc09a2AD3B62Cc6F5f2BCC769aFAcB70d](https://testnet.bscscan.com/address/0x90f36c4fc09a2ad3b62cc6f5f2bcc769afacb70d)          | BSC Testnet |
 
 ## Ark Network API Methods
 set of public API methods for the Ark Network node
@@ -185,7 +185,7 @@ Reponse example: return the validators addresses and the smart contracts address
 
 ```json
 {
-  "validators": ["vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0"],
+  "validators": ["pending"],
   "arweave_oracle_addr": {
     "addr": "i9Q9Y14HnJUmnSOVdxlPQkHHsT0W6kTv9PXCblZ_kAA",
     "network": "arweave-mainnet"
@@ -197,8 +197,13 @@ Reponse example: return the validators addresses and the smart contracts address
   "aurora_oracle_addr": {
     "addr": "0xfb0200C27185185D7DEe0403D5f102ADb59B7c34",
     "network": "aurora-testnet"
+  },
+  "bsc_oracle_addr": {
+    "addr": "0x90f36C4Fc09a2AD3B62Cc6F5f2BCC769aFAcB70d",
+    "network": "bsc-testnet"
   }
 }
+
 
 ```
 
