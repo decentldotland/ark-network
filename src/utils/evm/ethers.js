@@ -2,14 +2,15 @@ import { ethers } from "ethers";
 import {
   ETH_ORACLE_ADDRESS,
   AURORA_TESTNET_ADDRESS,
+  BSC_TESTNET_ADDRESS,
   GOERLI_ETH_RPC,
   MAINNET_ETH_RPC,
   AURORA_TESTNET_RPC,
+  BSC_TESTNET_RPC,
 } from "../constants.js";
 import { ArkNetwork } from "./web3.js";
 
 const decoder = new ethers.utils.AbiCoder();
-
 
 export async function getTransaction(txid, network) {
   try {
@@ -40,6 +41,11 @@ async function resolveNetworkKey(network_key) {
       return {
         RPC_URL: AURORA_TESTNET_RPC,
         CONTRACT_ADDRESS: AURORA_TESTNET_ADDRESS,
+      };
+    case "BSC-TESTNET":
+      return {
+        RPC_URL: BSC_TESTNET_RPC,
+        CONTRACT_ADDRESS: BSC_TESTNET_ADDRESS,
       };
     default:
       return { RPC_URL: GOERLI_ETH_RPC, CONTRACT_ADDRESS: ETH_ORACLE_ADDRESS };
