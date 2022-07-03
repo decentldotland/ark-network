@@ -130,6 +130,8 @@ The node will `GET` the user's telegram profile by hitting his username, extract
 ## Ark Network API Methods
 set of public API methods for the Ark Network node
 
+- API endpoint (development - testnet): https://thawing-lowlands-08726.herokuapp.com/
+
 ### 1- get Arweave oracle state
 - `GET /ark/oracle/state`
 
