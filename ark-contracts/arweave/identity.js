@@ -9,10 +9,10 @@
  *         ██║░░██║██║░░██║██║░╚██╗        ██║░╚███║███████╗░░░██║░░░░░╚██╔╝░╚██╔╝░╚█████╔╝██║░░██║██║░╚██╗
  *         ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝        ╚═╝░░╚══╝╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝
  *
- * @title: Ark Network Arweave oracle
+ * @title Ark Network Arweave oracle
  * @version 0.0.5
- * @author: charmful0x
- * @license: MIT
+ * @author charmful0x
+ * @license MIT
  * @website decent.land
  *
  **/
@@ -25,29 +25,39 @@ export async function handle(state, action) {
   const identities = state.identities;
   const networks = state.networks;
 
-  const ERROR_INVALID_DATA_TYPE = "EVM address/TXID must be a string";
-  const ERROR_INVALID_EVM_ADDRESS_SYNTAX = "invalid EVM address syntax";
-  const ERROR_INVALID_EVM_TXID_SYNTAX = "invalid EVM TXID syntax";
-  const ERROR_USER_NOT_FOUND =
-    "cannot find a user with the given Arweave address";
-  const ERROR_DOUBLE_INTERACTION =
-    "cannot reverse an identity validity within less than 3 network blocks";
-  const ERROR_INVALID_ARWEAVE_ADDRESS = "invalid Arweave address syntax";
-  const ERROR_CALLER_NOT_ADMIN = "invalid function caller";
-  const ERROR_USERNAME_NOT_STRING = "Telegram username must be a string";
-  const ERROR_FUNCTION_MISSING_ARGUMENTS =
-    "None of the function's required paramters have been passed in";
-  const ERROR_INVALID_VALIDITY = "the admin has passed an invalid validity";
-  const ERROR_INVALID_NETWORK_SUPPLIED = "network not supported";
-  const ERROR_NETWORK_ALREADY_ADDED =
-    "the given network has been already added";
-  const ERROR_NETWORK_NOT_EXIST =
-    "cannot find a network with the given ID-name";
-  const ERROR_IDENTITY_DUPLICATION = "an Arweave address is already linked with the given EVM address";
+  const ERROR_INVALID_DATA_TYPE = `EVM address/TXID must be a string`;
+  const ERROR_INVALID_EVM_ADDRESS_SYNTAX = `invalid EVM address syntax`;
+  const ERROR_INVALID_EVM_TXID_SYNTAX = `invalid EVM TXID syntax`;
+  const ERROR_USER_NOT_FOUND = `cannot find a user with the given Arweave address`;
+  const ERROR_DOUBLE_INTERACTION = `cannot reverse an identity validity within less than 3 network blocks`;
+  const ERROR_INVALID_ARWEAVE_ADDRESS = `invalid Arweave address syntax`;
+  const ERROR_CALLER_NOT_ADMIN = `invalid function caller`;
+  const ERROR_USERNAME_NOT_STRING = `Telegram username must be a string`;
+  const ERROR_FUNCTION_MISSING_ARGUMENTS = `None of the function's required paramters have been passed in`;
+  const ERROR_INVALID_VALIDITY = `the admin has passed an invalid validity`;
+  const ERROR_INVALID_NETWORK_SUPPLIED = `network not supported`;
+  const ERROR_NETWORK_ALREADY_ADDED = `the given network has been already added`;
+  const ERROR_NETWORK_NOT_EXIST = `cannot find a network with the given ID-name`;
+  const ERROR_IDENTITY_DUPLICATION = `an Arweave address is already linked with the given EVM address`;
 
   // USERS FUNCTION
 
   if (input.function === "linkIdentity") {
+    /**
+     * @dev register an identity linkage request. The
+     *  caller links his Arweave addr with an EVM addr.
+     *
+     * @param address the EVM addr to be linked
+     * @param verificationReq the TXID of linkage
+     * request on the EVM chain
+     * @param network the network KEY of where
+     * verificationReq took place
+     * @param telegram_acc optional input, the
+     * user's TG username encoded in AES
+     *
+     * @return state
+     *
+     **/
     const address = input?.address;
     const verificationReq = input?.verificationReq;
     const network = input.network;
@@ -119,8 +129,16 @@ export async function handle(state, action) {
   // ADMINS FUNCTION
 
   if (input.function === "verifyIdentity") {
-    // verify (or reverse verification) the identity of an Arweave
-    // available in the contract state
+    /**
+     * @dev verify (or reverse verification) the identity of
+     * an identity registered in the contract state
+     *
+     * @param identityOf the Arweave addr of the identity
+     * @param validity boolean (true or false)
+     *
+     * @return state
+     *
+     **/
     const identityOf = input?.identityOf;
     const validity = input?.validity;
 
@@ -145,6 +163,14 @@ export async function handle(state, action) {
   }
 
   if (input.function === "addNetwork") {
+    /**
+     * @dev append a new KEY for a newly supported network.
+     *
+     * @param network the new network's KEY
+     *
+     * @return state
+     *
+     **/
     const network = input.network;
 
     _isAdmin(caller);
@@ -156,6 +182,14 @@ export async function handle(state, action) {
   }
 
   if (input.function === "removeNetwork") {
+    /**
+     * @dev remove a network support from the `state.networks` array
+     *
+     * @param network the KEY of the network to be removed
+     *
+     * @return state
+     *
+     **/
     const network = input.network;
 
     _isAdmin(caller);
@@ -218,7 +252,6 @@ export async function handle(state, action) {
   }
 
   function _checkIdentityDuplication(evm_address) {
-
     const possibleDupIndex = identities.findIndex(
       (usr) =>
         usr.evm_address === evm_address &&
@@ -232,5 +265,4 @@ export async function handle(state, action) {
 
     throw new ContractError(ERROR_IDENTITY_DUPLICATION);
   }
-
 }
