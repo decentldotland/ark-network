@@ -10,7 +10,7 @@
  *         ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝        ╚═╝░░╚══╝╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝
  *
  * @title: Ark Network Arweave oracle
- * @version 0.0.4
+ * @version 0.0.5
  * @author: charmful0x
  * @license: MIT
  * @website decent.land
@@ -43,6 +43,7 @@ export async function handle(state, action) {
     "the given network has been already added";
   const ERROR_NETWORK_NOT_EXIST =
     "cannot find a network with the given ID-name";
+  const ERROR_IDENTITY_DUPLICATION = "an Arweave address is already linked with the given EVM address";
 
   // USERS FUNCTION
 
@@ -57,6 +58,9 @@ export async function handle(state, action) {
     }
 
     const userIndex = _getUserIndex(caller);
+
+    // allow one-to-one addresses linkage only
+    _checkIdentityDuplication(address);
 
     if (telegram_enc) {
       telegram_enc = _validateTelegramUsername(telegram_enc);
@@ -212,4 +216,21 @@ export async function handle(state, action) {
   function _validateNetwork(network) {
     ContractAssert(networks.includes(network), ERROR_INVALID_NETWORK_SUPPLIED);
   }
+
+  function _checkIdentityDuplication(evm_address) {
+
+    const possibleDupIndex = identities.findIndex(
+      (usr) =>
+        usr.evm_address === evm_address &&
+        !!usr.is_verified &&
+        !!usr.is_evaluated
+    );
+
+    if (possibleDupIndex === -1) {
+      return false;
+    }
+
+    throw new ContractError(ERROR_IDENTITY_DUPLICATION);
+  }
+
 }
