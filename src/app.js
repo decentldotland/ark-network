@@ -1,5 +1,5 @@
 import { web3, ArkNetwork, checkTopicAgainstAddress } from "./utils/evm/web3.js";
-import { getArweaveBlock } from "./utils/arweave/network.js";
+import { sleepBlockCount } from "./utils/arweave/network.js";
 import  { getTransaction } from "./utils/evm/ethers.js";
 import { getOracleState, getStats, getNetworkAddresses } from "./utils/cache-utils.js";
 import { runPolling } from "./utils/polling.js";
@@ -42,6 +42,7 @@ app.get("/ark/network/addresses", async (req, res) => {
 app.listen(port, async () => {
   while(true) {
     await runPolling();
+    await sleepBlockCount(5);
     console.log(`listening at PORT:${port}`);
   }
 });
