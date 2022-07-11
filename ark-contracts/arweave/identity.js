@@ -10,7 +10,7 @@
  *         ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝        ╚═╝░░╚══╝╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝
  *
  * @title Ark Network Arweave oracle
- * @version 0.0.5
+ * @version 0.0.6
  * @author charmful0x
  * @license MIT
  * @website decent.land
@@ -86,7 +86,11 @@ export async function handle(state, action) {
         evm_address: address,
         verification_req: verificationReq,
         ver_req_network: network,
-        telegram_username: telegram_enc ? telegram_enc : null,
+        telegram: {
+          username: telegram_enc ? telegram_enc : null,
+          is_verified: false,
+          is_evaluated: false,
+        },
         identity_id: SmartWeave.transaction.id,
         is_verified: false,
         is_evaluated: false,
@@ -114,10 +118,11 @@ export async function handle(state, action) {
 
     if (telegram_enc) {
       // telegram username got already checked
-      identities[userIndex].telegram_username = telegram_enc;
-      // reset the account verification state
-      identities[userIndex].is_evaluated = false;
-      identities[userIndex].is_verified = false;
+      identities[userIndex].telegram = {
+        username: telegram_enc ? telegram_enc : null,
+        is_verified: false,
+        is_evaluated: false,
+      };
     }
 
     // log the update's blockheight
@@ -159,6 +164,41 @@ export async function handle(state, action) {
     identities[identityIndex].is_evaluated = true;
     identities[identityIndex].last_validation = SmartWeave.block.height;
     identities[identityIndex].validator = caller;
+
+    return { state };
+  }
+  if (input.function === "verifyTelegram") {
+    /**
+     * @dev verify (or reverse verification) the validity
+     * of a linked Telegram username.
+     *
+     * @param identityOf the Arweave addr of the identity
+     * @param validity boolean (true or false)
+     *
+     * @return state
+     *
+     **/
+    const identityOf = input?.identityOf;
+    const validity = input?.validity;
+
+    _validateArweaveAddress(identityOf);
+    _isAdmin(caller);
+
+    const identityIndex = _getUserIndex(identityOf);
+
+    ContractAssert([true, false].includes(validity), ERROR_INVALID_VALIDITY);
+    ContractAssert(identityIndex !== -1, ERROR_USER_NOT_FOUND);
+    ContractAssert(
+      identities[identityIndex].last_modification < SmartWeave.block.height + 3,
+      ERROR_DOUBLE_INTERACTION
+    );
+
+    identities[identityIndex].last_modification = SmartWeave.block.height;
+    identities[identityIndex].telegram.is_verified = validity;
+    identities[identityIndex].telegram.is_evaluated = true;
+    identities[identityIndex].last_validation = SmartWeave.block.height;
+    identities[identityIndex].validator = caller;
+    
     return { state };
   }
 
