@@ -41,14 +41,14 @@ export async function checkAndVerifyUser(userObject) {
       throw new Error(`invalid contract interaction/address`);
     }
 
-    if (telegram_username) {
-      const isValid = await verifyUser(identity_id, telegram_username);
+    // if (telegram_username) {
+    //   const isValid = await verifyUser(identity_id, telegram_username);
 
-      if (!isValid) {
-        throw new Error(`Failed while verifying Telegram identity`);
-      }
-      console.log(green(`Telegram identity valid --> ${telegram_username}`));
-    }
+    //   if (!isValid) {
+    //     throw new Error(`Failed while verifying Telegram identity`);
+    //   }
+    //   console.log(green(`Telegram identity valid --> ${telegram_username}`));
+    // }
 
     const hashedArAddressLog = evmVerificationReq.logs[0].topics[2];
 
