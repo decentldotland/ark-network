@@ -4,6 +4,7 @@ import {
   ETH_ORACLE_ADDRESS,
   AURORA_TESTNET_ADDRESS,
   BSC_TESTNET_ADDRESS,
+  AVAX_FUJI_TESTNET_ADDRESS,
 } from "./constants.js";
 import base64url from "base64url";
 
@@ -74,6 +75,10 @@ export async function getNetworkAddresses() {
       bsc_oracle_addr: {
         addr: BSC_TESTNET_ADDRESS,
         network: "bsc-testnet",
+      },
+      avax_fuji_oracle_addr: {
+        addr: AVAX_FUJI_TESTNET_ADDRESS,
+        network: "avax-fuji-testnet",
       },
     };
   } catch (error) {
