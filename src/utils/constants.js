@@ -8,11 +8,13 @@ export const ETH_ORACLE_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`; 
 export const AURORA_TESTNET_ADDRESS = `0xfb0200C27185185D7DEe0403D5f102ADb59B7c34`;
 export const BSC_TESTNET_ADDRESS = `0x90f36C4Fc09a2AD3B62Cc6F5f2BCC769aFAcB70d`;
 export const AVAX_FUJI_TESTNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
+export const NEON_DEVNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 export const EVM_ORACLES_CONTRACTS = [
   ETH_ORACLE_ADDRESS,
   AURORA_TESTNET_ADDRESS,
   BSC_TESTNET_ADDRESS,
   AVAX_FUJI_TESTNET_ADDRESS,
+  NEON_DEVNET_ADDRESS,
 ];
 
 // RPCs
@@ -22,4 +24,5 @@ export const MAINNET_ETH_RPC = `https://mainnet.infura.io/v3/${process.env.INFUR
 export const AURORA_TESTNET_RPC = `https://aurora-testnet.infura.io/v3/${process.env.INFURA_API_KEY}`;
 export const BSC_TESTNET_RPC = `https://data-seed-prebsc-1-s1.binance.org:8545/`;
 export const FUJI_TESTNET_RPC = `https://api.avax-test.network/ext/bc/C/rpc`;
+export const NEON_DEVNET_RPC = "https://proxy.devnet.neonlabs.org/solana";
 export const RPC_PORT = 9545;
