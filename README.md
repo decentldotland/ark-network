@@ -126,11 +126,13 @@ The node will `GET` the user's telegram profile by hitting his username, extract
 | Arweave Oracle SWC   v0.0.3 (ETH Goerli only)   | [ark-contracts/arweave](https://github.com/decentldotland/ark-network/blob/f96086d6ed58341fe8326524ed79fac51f6761d3/ark-contracts/arweave/identity.js)     |   [qP614umsvOo9Szvl-xqvnXH0xLOg2eKOsLYnKx2l5SA](https://viewblock.io/arweave/tx/qP614umsvOo9Szvl-xqvnXH0xLOg2eKOsLYnKx2l5SA) | Arweave Mainnet |
 | Arweave Oracle SWC   v0.0.4 (multichain support)   | [ark-contracts/arweave](https://github.com/decentldotland/ark-network/blob/28c37822d06010e015e96c360b4dc07c4813536c/ark-contracts/arweave/identity.js)     |   [i9Q9Y14HnJUmnSOVdxlPQkHHsT0W6kTv9PXCblZ_kAA](https://viewblock.io/arweave/tx/i9Q9Y14HnJUmnSOVdxlPQkHHsT0W6kTv9PXCblZ_kAA) | Arweave Mainnet |
 | Arweave Oracle SWC   v0.0.5 (v0.0.4 + enhanced security)   | [ark-contracts/arweave](https://github.com/decentldotland/ark-network/blob/01c9d1a1d1b559aa7b47e272cd80e1007fbbec6e/ark-contracts/arweave/identity.js)     |   [A5bLD0F5bZPhhKYijF2kdGnEgpaww_lEpzowC8dZmEc](https://viewblock.io/arweave/tx/A5bLD0F5bZPhhKYijF2kdGnEgpaww_lEpzowC8dZmEc) | Arweave Mainnet |
-| Arweave Oracle SWC   v0.0.6 (diff logic to handle TG validity)   | [ark-contracts/arweave](./ark-contracts/arweave)     |   [A5bLD0F5bZPhhKYijF2kdGnEgpaww_lEpzowC8dZmEc](https://viewblock.io/arweave/tx/A5bLD0F5bZPhhKYijF2kdGnEgpaww_lEpzowC8dZmEc) | Arweave Mainnet |
-| Goerli Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://goerli.etherscan.io/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a)          | Goerli Testnet |
+| Arweave Oracle SWC   v0.0.6 (diff logic to handle TG validity)   | [ark-contracts/arweave](https://github.com/decentldotland/ark-network/blob/24d17b95c8bb24198f875fb3b8f82bbb6ac29efc/ark-contracts/arweave/identity.js)     |   [A5bLD0F5bZPhhKYijF2kdGnEgpaww_lEpzowC8dZmEc](https://viewblock.io/arweave/tx/A5bLD0F5bZPhhKYijF2kdGnEgpaww_lEpzowC8dZmEc) | Arweave Mainnet |
+| Arweave Oracle SWC   v0.0.7 (testnet ready)   | [ark-contracts/arweave](./ark-contracts/arweave)     |   [44JMzVHrHFKDAf7M0VvqBZT2lXjNbyHrdtVoagx-i28](https://viewblock.io/arweave/tx/44JMzVHrHFKDAf7M0VvqBZT2lXjNbyHrdtVoagx-i28) | Arweave Mainnet |
+| Ethereum Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     | 0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A | [Goerli](https://goerli.etherscan.io/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a) \|\| [Mainnet](https://etherscan.io/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a) |
 | Aurora Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xfb0200C27185185D7DEe0403D5f102ADb59B7c34](https://testnet.aurorascan.dev/address/0xfb0200c27185185d7dee0403d5f102adb59b7c34)          | Aurora Testnet |
-| BSC Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0x90f36C4Fc09a2AD3B62Cc6F5f2BCC769aFAcB70d](https://testnet.bscscan.com/address/0x90f36c4fc09a2ad3b62cc6f5f2bcc769afacb70d)          | BSC Testnet |
-| AVAX Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://testnet.snowtrace.io/address/0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A)          | Avalanche Fuji Testnet |
+| BSC Testnet Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0x90f36C4Fc09a2AD3B62Cc6F5f2BCC769aFAcB70d](https://testnet.bscscan.com/address/0x90f36c4fc09a2ad3b62cc6f5f2bcc769afacb70d)          |  Testnet  |
+| BSC Mainnet Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://bscscan.com/address/0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A)          |  Mainnet  |
+| Avalanche Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy) | 0xE5E0A3380811aD9380F91a6996529da0a262EcD1 | [Fuji Testnet](https://testnet.snowtrace.io/address/0xe5e0a3380811ad9380f91a6996529da0a262ecd1) \|\| [C-Chain Mainnet](https://snowtrace.io/address/0xe5e0a3380811ad9380f91a6996529da0a262ecd1)|
 | NEON Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://neonscan.org/address/0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A)          | NEON DEVNET |
 
 
@@ -198,31 +200,30 @@ Reponse example: return the validators addresses and the smart contracts address
 {
   "validators": ["vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0"],
   "arweave_oracle_addr": {
-    "addr": "jRGJtaBjfvDJgpQATUiW3mBbB_wp71xrUmeQBalrm3k",
+    "addr": "44JMzVHrHFKDAf7M0VvqBZT2lXjNbyHrdtVoagx-i28",
     "network": "arweave-mainnet"
   },
   "eth_oracle_addr": {
     "addr": "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A",
-    "network": "eth-goerli"
+    "network": "goerli&&mainnet"
   },
   "aurora_oracle_addr": {
     "addr": "0xfb0200C27185185D7DEe0403D5f102ADb59B7c34",
     "network": "aurora-testnet"
   },
   "bsc_oracle_addr": {
-    "addr": "0x90f36C4Fc09a2AD3B62Cc6F5f2BCC769aFAcB70d",
-    "network": "bsc-testnet"
-  },
-  "avax_fuji_oracle_addr": {
     "addr": "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A",
-    "network": "avax-fuji-testnet"
+    "network": "bsc-mainnet"
+  },
+  "avalanche_oracle_addr": {
+    "addr": "0xE5E0A3380811aD9380F91a6996529da0a262EcD1",
+    "network": "avax-c-chain"
   },
   "neon_devnet_oracle_addr": {
     "addr": "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A",
     "network": "neon-devnet"
   }
 }
-
 
 ```
 
