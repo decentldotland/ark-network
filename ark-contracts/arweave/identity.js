@@ -10,7 +10,7 @@
  *         ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝        ╚═╝░░╚══╝╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝
  *
  * @title Ark Network Arweave oracle
- * @version 0.0.6
+ * @version 0.0.7
  * @author charmful0x
  * @license MIT
  * @website decent.land
@@ -24,6 +24,7 @@ export async function handle(state, action) {
   const admins = state.admins;
   const identities = state.identities;
   const networks = state.networks;
+  const verRequests = state.verRequests;
 
   const ERROR_INVALID_DATA_TYPE = `EVM address/TXID must be a string`;
   const ERROR_INVALID_EVM_ADDRESS_SYNTAX = `invalid EVM address syntax`;
@@ -39,6 +40,7 @@ export async function handle(state, action) {
   const ERROR_NETWORK_ALREADY_ADDED = `the given network has been already added`;
   const ERROR_NETWORK_NOT_EXIST = `cannot find a network with the given ID-name`;
   const ERROR_IDENTITY_DUPLICATION = `an Arweave address is already linked with the given EVM address`;
+  const ERROR_VER_ID_ALREADY_USED = `the given verification request TXID has been already used by a valid identity`;
 
   // USERS FUNCTION
 
@@ -70,7 +72,7 @@ export async function handle(state, action) {
     const userIndex = _getUserIndex(caller);
 
     // allow one-to-one addresses linkage only
-    _checkIdentityDuplication(address);
+    _checkIdentityDuplication(address, caller);
 
     if (telegram_enc) {
       telegram_enc = _validateTelegramUsername(telegram_enc);
@@ -80,6 +82,7 @@ export async function handle(state, action) {
       _validateEvmAddress(address);
       _validateNetwork(network);
       _validateEvmTx(verificationReq);
+      _checkSignature(verificationReq);
 
       identities.push({
         arweave_address: caller,
@@ -103,6 +106,7 @@ export async function handle(state, action) {
     if (address) {
       _validateEvmAddress(address);
       _validateEvmTx(verificationReq);
+      _checkSignature(verificationReq);
       _validateNetwork(network);
       // updating the address means that
       // the verificationReq should exist
@@ -165,6 +169,11 @@ export async function handle(state, action) {
     identities[identityIndex].last_validation = SmartWeave.block.height;
     identities[identityIndex].validator = caller;
 
+    if (validity) {
+      // log the verification requests used for a valid identity
+      state.verRequests.push(identities[identityIndex]["verification_req"]);
+    }
+
     return { state };
   }
   if (input.function === "verifyTelegram") {
@@ -193,12 +202,17 @@ export async function handle(state, action) {
       ERROR_DOUBLE_INTERACTION
     );
 
+    _adminDoubleVerification(
+      identities[identityIndex].verification_req,
+      identities[identityIndex].arweave_address
+    );
+
     identities[identityIndex].last_modification = SmartWeave.block.height;
     identities[identityIndex].telegram.is_verified = validity;
     identities[identityIndex].telegram.is_evaluated = true;
     identities[identityIndex].last_validation = SmartWeave.block.height;
     identities[identityIndex].validator = caller;
-    
+
     return { state };
   }
 
@@ -291,12 +305,13 @@ export async function handle(state, action) {
     ContractAssert(networks.includes(network), ERROR_INVALID_NETWORK_SUPPLIED);
   }
 
-  function _checkIdentityDuplication(evm_address) {
+  function _checkIdentityDuplication(evm_address, arweave_address) {
     const possibleDupIndex = identities.findIndex(
       (usr) =>
         usr.evm_address === evm_address &&
         !!usr.is_verified &&
-        !!usr.is_evaluated
+        !!usr.is_evaluated &&
+        usr.arweave_address !== arweave_address
     );
 
     if (possibleDupIndex === -1) {
@@ -304,5 +319,22 @@ export async function handle(state, action) {
     }
 
     throw new ContractError(ERROR_IDENTITY_DUPLICATION);
+  }
+
+  function _checkSignature(txid) {
+    if (verRequests.includes(txid)) {
+      throw new ContractError(ERROR_VER_ID_ALREADY_USED);
+    }
+  }
+
+  function _adminDoubleVerification(verificationReq, arweave_address) {
+    const possibleDupIndex = identities.findIndex(
+      (usr) =>
+        usr.arweave_address !== arweave_address &&
+        usr.verification_req === verificationReq &&
+        !!usr.is_evaluated &&
+        !!usr.is_verified
+    );
+    ContractAssert(possibleDupIndex !== -1, ERROR_IDENTITY_DUPLICATION);
   }
 }
