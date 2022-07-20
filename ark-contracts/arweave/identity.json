@@ -3,11 +3,13 @@
   "networks": [
     "AURORA-MAINNET",
     "AURORA-TESTNET",
+    "AVALANCHE-MAINNET",
     "BSC-MAINNET",
     "BSC-TESTNET",
     "ETH-MAINNET",
     "ETH-GOERLI",
-    "NEON-DEVNET"
+    "FUJI-C-CHAIN",
+    "NEON-DEVNET",
   ],
   "identities": [],
   "verRequests": []
