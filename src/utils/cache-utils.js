@@ -4,7 +4,9 @@ import {
   ETH_ORACLE_ADDRESS,
   AURORA_TESTNET_ADDRESS,
   BSC_TESTNET_ADDRESS,
+  BSC_MAINNET_ADDRESS,
   AVAX_FUJI_TESTNET_ADDRESS,
+  AVALANCHE_MAINNET_ADDRESS,
   NEON_DEVNET_ADDRESS,
 } from "./constants.js";
 import base64url from "base64url";
@@ -67,19 +69,19 @@ export async function getNetworkAddresses() {
       },
       eth_oracle_addr: {
         addr: ETH_ORACLE_ADDRESS,
-        network: "eth-goerli",
+        network: "goerli&&mainnet",
       },
       aurora_oracle_addr: {
         addr: AURORA_TESTNET_ADDRESS,
         network: "aurora-testnet",
       },
       bsc_oracle_addr: {
-        addr: BSC_TESTNET_ADDRESS,
-        network: "bsc-testnet",
+        addr: BSC_MAINNET_ADDRESS,
+        network: "bsc-mainnet",
       },
-      avax_fuji_oracle_addr: {
-        addr: AVAX_FUJI_TESTNET_ADDRESS,
-        network: "avax-fuji-testnet",
+      avalanche_oracle_addr: {
+        addr: AVALANCHE_MAINNET_ADDRESS,
+        network: "avax-c-chain",
       },
       neon_devnet_oracle_addr: {
         addr: NEON_DEVNET_ADDRESS,
