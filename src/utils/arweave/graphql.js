@@ -19,7 +19,6 @@ const arkNetworkActions = {
         owner { address }
         tags { name value }
         block { height }
-
       }
     }
   }
@@ -43,7 +42,7 @@ async function gqlQuery(query) {
       id: tx.id,
       owner: tx.owner.address,
       // pending transactions do not have block value
-      blockheight: tx.block.height,
+      blockheight: tx.block?.height,
       tags: tx.tags ? tx.tags : [],
     });
   }
@@ -54,7 +53,7 @@ async function gqlQuery(query) {
 export async function getLastInteractionBlock() {
   try {
     const interactions = await gqlQuery(arkNetworkActions.body);
-    return interactions[0].blockheight;
+    return interactions?.[0]?.blockheight;
   } catch (error) {
     console.log(error);
   }
