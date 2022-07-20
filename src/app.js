@@ -42,7 +42,7 @@ app.get("/ark/network/addresses", async (req, res) => {
 app.listen(port, async () => {
   while(true) {
     await runPolling();
-    await sleepBlockCount(5);
+    await sleepBlockCount(2);
     console.log(`listening at PORT:${port}`);
   }
 });
