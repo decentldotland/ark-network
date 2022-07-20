@@ -3,12 +3,16 @@ import {
   ETH_ORACLE_ADDRESS,
   AURORA_TESTNET_ADDRESS,
   BSC_TESTNET_ADDRESS,
+  BSC_MAINNET_ADDRESS,
   AVAX_FUJI_TESTNET_ADDRESS,
+  AVALANCHE_MAINNET_ADDRESS,
   NEON_DEVNET_ADDRESS,
   GOERLI_ETH_RPC,
   MAINNET_ETH_RPC,
   AURORA_TESTNET_RPC,
   BSC_TESTNET_RPC,
+  BSC_MAINNET_RPC,
+  AVALANCHE_MAINNET_RPC,
   FUJI_TESTNET_RPC,
   NEON_DEVNET_RPC,
 } from "../constants.js";
@@ -51,10 +55,20 @@ async function resolveNetworkKey(network_key) {
         RPC_URL: BSC_TESTNET_RPC,
         CONTRACT_ADDRESS: BSC_TESTNET_ADDRESS,
       };
+    case "BSC-MAINNET":
+      return {
+        RPC_URL: BSC_MAINNET_RPC,
+        CONTRACT_ADDRESS: BSC_MAINNET_ADDRESS,
+      };
     case "FUJI-C-CHAIN":
       return {
         RPC_URL: FUJI_TESTNET_RPC,
         CONTRACT_ADDRESS: AVAX_FUJI_TESTNET_ADDRESS,
+      };
+    case "AVALANCHE-MAINNET":
+      return {
+        RPC_URL: AVALANCHE_MAINNET_RPC,
+        CONTRACT_ADDRESS: AVALANCHE_MAINNET_ADDRESS,
       };
     case "NEON-DEVNET":
       return {
@@ -65,4 +79,3 @@ async function resolveNetworkKey(network_key) {
       return { RPC_URL: GOERLI_ETH_RPC, CONTRACT_ADDRESS: ETH_ORACLE_ADDRESS };
   }
 }
-
