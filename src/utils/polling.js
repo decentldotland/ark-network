@@ -32,7 +32,7 @@ export async function runPolling() {
 
     }
 
-    const lastInteractionBlock = getLastInteractionBlock();
+    const lastInteractionBlock = await getLastInteractionBlock();
     if (
       cacheNode.has("last-cached-block") &&
       cacheNode.get("last-cached-block") < lastInteractionBlock
