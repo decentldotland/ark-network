@@ -7,6 +7,7 @@ import {
   AVAX_FUJI_TESTNET_ADDRESS,
   AVALANCHE_MAINNET_ADDRESS,
   NEON_DEVNET_ADDRESS,
+  FTM_MAINNET_ADDRESS,
   GOERLI_ETH_RPC,
   MAINNET_ETH_RPC,
   AURORA_TESTNET_RPC,
@@ -15,6 +16,7 @@ import {
   AVALANCHE_MAINNET_RPC,
   FUJI_TESTNET_RPC,
   NEON_DEVNET_RPC,
+  FTM_MAINNET_RPC,
 } from "../constants.js";
 import { ArkNetwork } from "./web3.js";
 
@@ -74,6 +76,11 @@ async function resolveNetworkKey(network_key) {
       return {
         RPC_URL: NEON_DEVNET_RPC,
         CONTRACT_ADDRESS: NEON_DEVNET_ADDRESS,
+      };
+    case "FTM-MAINNET":
+      return {
+        RPC_URL: FTM_MAINNET_RPC,
+        CONTRACT_ADDRESS: FTM_MAINNET_ADDRESS,
       };
     default:
       return { RPC_URL: GOERLI_ETH_RPC, CONTRACT_ADDRESS: ETH_ORACLE_ADDRESS };
