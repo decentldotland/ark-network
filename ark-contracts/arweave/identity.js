@@ -10,7 +10,7 @@
  *         ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝        ╚═╝░░╚══╝╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝
  *
  * @title Ark Network Arweave oracle
- * @version 0.0.7
+ * @version 0.0.8
  * @author charmful0x
  * @license MIT
  * @website decent.land
@@ -163,6 +163,11 @@ export async function handle(state, action) {
       ERROR_DOUBLE_INTERACTION
     );
 
+    _adminDoubleVerification(
+      identities[identityIndex].verification_req,
+      identities[identityIndex].arweave_address
+    );
+    
     identities[identityIndex].last_modification = SmartWeave.block.height;
     identities[identityIndex].is_verified = validity;
     identities[identityIndex].is_evaluated = true;
@@ -200,11 +205,6 @@ export async function handle(state, action) {
     ContractAssert(
       identities[identityIndex].last_modification < SmartWeave.block.height + 3,
       ERROR_DOUBLE_INTERACTION
-    );
-
-    _adminDoubleVerification(
-      identities[identityIndex].verification_req,
-      identities[identityIndex].arweave_address
     );
 
     identities[identityIndex].last_modification = SmartWeave.block.height;
@@ -335,6 +335,6 @@ export async function handle(state, action) {
         !!usr.is_evaluated &&
         !!usr.is_verified
     );
-    ContractAssert(possibleDupIndex !== -1, ERROR_IDENTITY_DUPLICATION);
+    ContractAssert(possibleDupIndex === -1, ERROR_IDENTITY_DUPLICATION);
   }
 }
