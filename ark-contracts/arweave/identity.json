@@ -10,6 +10,7 @@
     "ETH-GOERLI",
     "FUJI-C-CHAIN",
     "NEON-DEVNET",
+    "FTM-MAINNET",
   ],
   "identities": [],
   "verRequests": []
