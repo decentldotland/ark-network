@@ -38,3 +38,7 @@ export const AVALANCHE_MAINNET_RPC = `https://api.avax.network/ext/bc/C/rpc`;
 export const NEON_DEVNET_RPC = `https://proxy.devnet.neonlabs.org/solana`;
 export const FTM_MAINNET_RPC = `https://rpc.ftm.tools/`;
 export const RPC_PORT = 9545;
+
+// APIs
+export const ANS_CACHE_API = `https://ans-stats.decent.land/users`;
+export const SERVER_ETH_RPC = `https://cloudflare-eth.com`;
