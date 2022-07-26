@@ -236,5 +236,10 @@ Reponse example: return the validators addresses and the smart contracts address
 
 #### To get the active Arweave oracle contract, always use the `arweave_oracle_addr` from `/ark/network/addresses`
 
+### 4- get Ark profile metadata
+- `GET /ark/profile/<arweave_address>`
+
+Response: return user's Ark identity metadata, ANS and ENS domains (if found)
+
 ## License
 This project is licensed under the [MIT license](./LICENSE).
