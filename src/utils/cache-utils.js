@@ -8,7 +8,8 @@ import {
   AVAX_FUJI_TESTNET_ADDRESS,
   AVALANCHE_MAINNET_ADDRESS,
   NEON_DEVNET_ADDRESS,
-  FTM_MAINNET_ADDRESS
+  FTM_MAINNET_ADDRESS,
+  OPTIMISM_MAINNET_ADDRESS,
 } from "./constants.js";
 import base64url from "base64url";
 
@@ -87,6 +88,10 @@ export async function getNetworkAddresses() {
       ftm_oracle_addr: {
         addr: FTM_MAINNET_ADDRESS,
         network: "ftm-mainnet",
+      },
+      optimism_oracle_addr: {
+        addr: OPTIMISM_MAINNET_ADDRESS,
+        network: "optimism-mainnet",
       },
       neon_devnet_oracle_addr: {
         addr: NEON_DEVNET_ADDRESS,
