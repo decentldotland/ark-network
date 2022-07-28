@@ -136,7 +136,7 @@ The node will `GET` the user's telegram profile by hitting his username, extract
 | Avalanche Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy) | 0xE5E0A3380811aD9380F91a6996529da0a262EcD1 | [Fuji Testnet](https://testnet.snowtrace.io/address/0xe5e0a3380811ad9380f91a6996529da0a262ecd1) \|\| [C-Chain Mainnet](https://snowtrace.io/address/0xe5e0a3380811ad9380f91a6996529da0a262ecd1)|
 | NEON Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://neonscan.org/address/0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A)          | NEON DEVNET |
 | FTM Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://ftmscan.com/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a)          | Mainnet |
-
+| Optimism Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://optimistic.etherscan.io/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a)          | Mainnet - [sourcify verification](https://repo.sourcify.dev/contracts/full_match/10/0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A/) |
 
 
 
@@ -225,12 +225,15 @@ Reponse example: return the validators addresses and the smart contracts address
     "addr": "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A",
     "network": "ftm-mainnet"
   },
+  "optimism_oracle_addr": {
+    "addr": "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A",
+    "network": "optimism-mainnet"
+  },
   "neon_devnet_oracle_addr": {
     "addr": "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A",
     "network": "neon-devnet"
   }
 }
-
 
 ```
 
