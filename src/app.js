@@ -1,8 +1,3 @@
-import {
-  web3,
-  ArkNetwork,
-  checkTopicAgainstAddress,
-} from "./utils/evm/web3.js";
 import { sleepBlockCount } from "./utils/arweave/network.js";
 import { getTransaction } from "./utils/evm/ethers.js";
 import {
@@ -12,7 +7,6 @@ import {
 } from "./utils/cache-utils.js";
 import { runPolling } from "./utils/polling.js";
 import { getArkProfile } from "./utils/server-utils.js";
-import sha256 from "sha256";
 import express from "express";
 import base64url from "base64url";
 import cors from "cors";
