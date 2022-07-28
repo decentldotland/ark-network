@@ -14,6 +14,7 @@ export const NEON_DEVNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 export const AVALANCHE_MAINNET_ADDRESS = `0xE5E0A3380811aD9380F91a6996529da0a262EcD1`;
 export const BSC_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 export const FTM_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
+export const OPTIMISM_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 
 export const EVM_ORACLES_CONTRACTS = [
   ETH_ORACLE_ADDRESS,
@@ -24,6 +25,7 @@ export const EVM_ORACLES_CONTRACTS = [
   AVALANCHE_MAINNET_ADDRESS,
   BSC_MAINNET_ADDRESS,
   FTM_MAINNET_ADDRESS,
+  OPTIMISM_MAINNET_ADDRESS,
 ];
 
 // RPCs
@@ -37,6 +39,7 @@ export const FUJI_TESTNET_RPC = `https://api.avax-test.network/ext/bc/C/rpc`;
 export const AVALANCHE_MAINNET_RPC = `https://api.avax.network/ext/bc/C/rpc`;
 export const NEON_DEVNET_RPC = `https://proxy.devnet.neonlabs.org/solana`;
 export const FTM_MAINNET_RPC = `https://rpc.ftm.tools/`;
+export const OPTIMISM_MAINNET_RPC = `https://mainnet.optimism.io`;
 export const RPC_PORT = 9545;
 
 // APIs
