@@ -9,8 +9,9 @@
     "ETH-MAINNET",
     "ETH-GOERLI",
     "FUJI-C-CHAIN",
-    "NEON-DEVNET",
     "FTM-MAINNET",
+    "NEON-DEVNET",
+    "OPTIMISM-MAINNET"
   ],
   "identities": [],
   "verRequests": []
