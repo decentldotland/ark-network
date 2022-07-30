@@ -1,6 +1,7 @@
 {
   "admins": ["vZY2XY1RD9HIfWi8ift-1_DnHLDadZMWrufSh-_rKF0"],
   "networks": [
+    "ARBITRUM_MAINNET",
     "AURORA-MAINNET",
     "AURORA-TESTNET",
     "AVALANCHE-MAINNET",
