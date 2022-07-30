@@ -9,6 +9,7 @@ import {
   NEON_DEVNET_ADDRESS,
   FTM_MAINNET_ADDRESS,
   OPTIMISM_MAINNET_ADDRESS,
+  ARBITRUM_MAINNET_ADDRESS,
   GOERLI_ETH_RPC,
   MAINNET_ETH_RPC,
   AURORA_TESTNET_RPC,
@@ -19,6 +20,7 @@ import {
   NEON_DEVNET_RPC,
   FTM_MAINNET_RPC,
   OPTIMISM_MAINNET_RPC,
+  ARBITRUM_MAINNET_RPC,
 } from "../constants.js";
 import { ArkNetworkVyper, ArkNetworkSolidity } from "./abis.js";
 
@@ -99,6 +101,12 @@ async function resolveNetworkKey(network_key) {
       return {
         RPC_URL: OPTIMISM_MAINNET_RPC,
         CONTRACT_ADDRESS: OPTIMISM_MAINNET_ADDRESS,
+        ABI: ArkNetworkSolidity,
+      };
+    case "ARBITRUM-MAINNET":
+      return {
+        RPC_URL: ARBITRUM_MAINNET_RPC,
+        CONTRACT_ADDRESS: ARBITRUM_MAINNET_ADDRESS,
         ABI: ArkNetworkSolidity,
       };
     default:
