@@ -10,6 +10,7 @@ import {
   NEON_DEVNET_ADDRESS,
   FTM_MAINNET_ADDRESS,
   OPTIMISM_MAINNET_ADDRESS,
+  ARBITRUM_MAINNET_ADDRESS,
 } from "./constants.js";
 import base64url from "base64url";
 
@@ -92,6 +93,10 @@ export async function getNetworkAddresses() {
       optimism_oracle_addr: {
         addr: OPTIMISM_MAINNET_ADDRESS,
         network: "optimism-mainnet",
+      },
+      arbitrum_oracle_addr: {
+        addr: ARBITRUM_MAINNET_ADDRESS,
+        network: "arbitrum-one",
       },
       neon_devnet_oracle_addr: {
         addr: NEON_DEVNET_ADDRESS,
