@@ -138,6 +138,7 @@ The node will `GET` the user's telegram profile by hitting his username, extract
 | FTM Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://ftmscan.com/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a)          | Mainnet |
 | Optimism Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://optimistic.etherscan.io/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a)          | Mainnet) |
 | Arbitrum Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://arbiscan.io/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a)          | Arbitrum One |
+| Polygon Registry SC      | [ark-contracts/EVM](./ark-contracts/EVM/identity.vy)     |  [0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A](https://polygonscan.com/address/0xde44d3fb118e0f007f2c0d8fffe98b994383949a)          |  Mainnet |
 
 
 
@@ -233,6 +234,10 @@ Reponse example: return the validators addresses and the smart contracts address
   "arbitrum_oracle_addr": {
     "addr": "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A",
     "network": "arbitrum-one"
+  },
+  "polygon_oracle_addr": {
+    "addr": "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A",
+    "network": "polygon-mainnet"
   },
   "neon_devnet_oracle_addr": {
     "addr": "0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A",
