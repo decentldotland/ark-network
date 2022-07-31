@@ -16,6 +16,7 @@ export const BSC_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 export const FTM_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 export const OPTIMISM_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 export const ARBITRUM_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
+export const POLYGON_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 
 export const EVM_ORACLES_CONTRACTS = [
   ETH_ORACLE_ADDRESS,
@@ -43,6 +44,7 @@ export const NEON_DEVNET_RPC = `https://proxy.devnet.neonlabs.org/solana`;
 export const FTM_MAINNET_RPC = `https://rpc.ftm.tools/`;
 export const OPTIMISM_MAINNET_RPC = `https://mainnet.optimism.io`;
 export const ARBITRUM_MAINNET_RPC = `https://arb1.arbitrum.io/rpc`;
+export const POLYGON_MAINNET_RPC = `https://polygon-rpc.com`;
 export const RPC_PORT = 9545;
 
 // APIs
