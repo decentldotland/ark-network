@@ -12,7 +12,8 @@
     "FUJI-C-CHAIN",
     "FTM-MAINNET",
     "NEON-DEVNET",
-    "OPTIMISM-MAINNET"
+    "OPTIMISM-MAINNET",
+    "POLYGON-MAINNET"
   ],
   "identities": [],
   "verRequests": []
