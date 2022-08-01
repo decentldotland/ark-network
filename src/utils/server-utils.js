@@ -65,7 +65,7 @@ async function getEnsProfile(eth_address) {
 
 async function getRss3Profile(eth_address) {
   try {
-    const config = {
+    const profileConfig = {
       method: "get",
       url: `https://pregod.rss3.dev/v1.1.0/profiles/${eth_address}?network=ethereum`,
       headers: {
@@ -73,15 +73,25 @@ async function getRss3Profile(eth_address) {
       },
     };
 
-    const res = (await axios(config))?.data?.result;
+    const notesConfig = {
+      method: "get",
+      url: `https://pregod.rss3.dev/v1.1.0/notes/${eth_address}?refresh=true&limit=100&include_poap=true`,
+      headers: {
+        Accept: "application/json",
+      },
+    };
 
-    if (res.length > 0) {
+    const res1 = (await axios(profileConfig))?.data?.result;
+    const res2 = (await axios(notesConfig))?.data?.result;
+
+    if (res1.length > 0) {
       return {
-        ethereum: res,
+        profile: res1,
+        transactions: res2,
       };
-
-      return res;
     }
+
+    return { transactions: res2 };
   } catch (error) {
     console.log(error);
     return false;
