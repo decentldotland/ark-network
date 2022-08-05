@@ -28,8 +28,6 @@ export async function runPolling() {
         base64url(JSON.stringify(oracleState))
       );
       cacheNode.set("oracle-cache-sha256", sha256(JSON.stringify(oracleState)));
-
-
     }
 
     const lastInteractionBlock = await getLastInteractionBlock();
@@ -61,10 +59,12 @@ export async function runPolling() {
 async function _filterState(state) {
   // filter evaluated users
   try {
-    const filteredUsers = state.identities.filter((user) => !user.is_evaluated);
+    const filteredUsers = state.identities.filter(
+      (user) => !user.is_evaluated || user.has_unevaluated_exotic_addrs
+    );
 
     return filteredUsers;
-  } catch(error) {
-    console.log(error)
+  } catch (error) {
+    console.log(error);
   }
 }
