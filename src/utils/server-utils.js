@@ -4,27 +4,35 @@ import { ethers } from "ethers";
 import axios from "axios";
 import base64url from "base64url";
 
-export async function getArkProfile(arweave_address) {
+export async function getArkProfile(network, address) {
   try {
+    let userProfile;
     const state = (await getOracleState())?.res;
     if (state === "e30" || !state) {
       return "e30";
     }
 
-    if (!/[a-z0-9_-]{43}/i.test(arweave_address)) {
+    if (!["arweave", "evm"].includes(network)) {
       return "e30";
     }
 
     const decodedState = JSON.parse(base64url.decode(state));
-    const userProfile = decodedState.res.find(
-      (user) => user["arweave_address"] === arweave_address
-    );
-    await getAnsProfile(arweave_address);
+
+    if (network === "arweave") {
+      userProfile = decodedState.res.find(
+        (user) => user["arweave_address"] === address && !!user.is_verified
+      );
+    } else {
+      userProfile = decodedState.res.find(
+        (user) => user["evm_address"] === address && !!user.is_verified
+      );
+    }
+
     if (!userProfile) {
       return "e30";
     }
 
-    userProfile.ANS = await getAnsProfile(arweave_address);
+    userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
 
