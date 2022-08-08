@@ -47,9 +47,9 @@ app.get("/v1/network/addresses", async (req, res) => {
   res.send(addresses);
 });
 
-app.get("/v1/profile/:arweave_address", async (req, res) => {
+app.get("/v1/profile/:network/:address", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  const profile = await getArkProfile(req.params.arweave_address);
+  const profile = await getArkProfile(req.params.network, req.params.address);
   if (!profile) {
     res.send(JSON.parse(`{}`));
     return;
