@@ -24,7 +24,7 @@ app.use(
 
 app.set("view engine", "ejs");
 
-app.get("/ark/oracle/state", async (req, res) => {
+app.get("/v1/oracle/state", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const encodedState = (await getOracleState())?.res;
   if (!encodedState) {
@@ -35,19 +35,19 @@ app.get("/ark/oracle/state", async (req, res) => {
   res.send(jsonRes);
 });
 
-app.get("/ark/network/stats", async (req, res) => {
+app.get("/v1/network/stats", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const stats = await getStats();
   res.send(stats);
 });
 
-app.get("/ark/network/addresses", async (req, res) => {
+app.get("/v1/network/addresses", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const addresses = await getNetworkAddresses();
   res.send(addresses);
 });
 
-app.get("/ark/profile/:arweave_address", async (req, res) => {
+app.get("/v1/profile/:arweave_address", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const profile = await getArkProfile(req.params.arweave_address);
   if (!profile) {
