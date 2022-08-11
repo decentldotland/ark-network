@@ -35,6 +35,9 @@ export async function getArkProfile(network, address) {
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
+    userProfile.ARWEAVE_TRANSACTIONS = await retrieveArtransactions(
+      userProfile.arweave_address
+    );
 
     return base64url(JSON.stringify({ res: userProfile }));
   } catch (error) {
@@ -104,4 +107,43 @@ async function getRss3Profile(eth_address) {
     console.log(error);
     return false;
   }
+}
+
+async function retrieveArtransactions(arweave_address) {
+  const q = {
+    query: `query {
+  transactions(
+  owners: ["${arweave_address}"],
+    first: 25
+  ) {
+    edges {
+      node {
+        id
+        owner { address }
+        tags { name value }
+        block { timestamp }
+
+      }
+    }
+  }
+}`,
+  };
+  const response = await axios.post("https://arweave.net/graphql", q, {
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const transactions = [];
+
+  const res_arr = response.data.data.transactions.edges;
+
+  for (let element of res_arr) {
+    const tx = element["node"];
+    transactions.push({
+      txid: tx.id,
+      // pending transactions do not have block value
+      timestamp: tx.block ? tx.block.timestamp : Date.now(),
+      tags: tx.tags ? tx.tags : [],
+    });
+  }
+  return transactions;
 }
