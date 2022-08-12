@@ -150,7 +150,7 @@ set of public API methods for the Ark Network node
 - API endpoint (development - testnet): https://ark-api.decent.land/v1/
 
 ### 1- get Arweave oracle state
-- `GET /ark/oracle/state`
+- `GET /oracle/state`
 
 Reponse example: return a cached state of the Ark oracle smartweave oracle address
 
@@ -189,7 +189,7 @@ Reponse example: return a cached state of the Ark oracle smartweave oracle addre
 ```
 
 ### 2- get network stats
-- `GET /ark/network/stats`
+- `GET /network/stats`
 
 Response example:
 ```json
@@ -198,7 +198,7 @@ Response example:
 ```
 
 ### 3- get network addresses
-- `GET /ark/network/addresses`
+- `GET /network/addresses`
 
 Reponse example: return the validators addresses and the smart contracts addresses
 
@@ -252,10 +252,10 @@ Reponse example: return the validators addresses and the smart contracts address
 }
 ```
 
-#### To get the active Arweave oracle contract, always use the `arweave_oracle_addr` from `/ark/network/addresses`
+#### To get the active Arweave oracle contract, always use the `arweave_oracle_addr` from `/network/addresses`
 
 ### 4- get Ark profile metadata
-- `GET /ark/profile/:network/:address`
+- `GET /profile/:network/:address`
 
 `network` can be either `arweave` or `evm` - and thus `address` should be on the equivalent network.
 
