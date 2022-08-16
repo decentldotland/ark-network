@@ -20,7 +20,7 @@ class ArkOracle extends NearContract {
     const arkState = this.state;
 
     if(!arkState || arkState?.length <= 0) {
-        near.panic("ERROR:Ark state not imported");
+        near.panic("ERROR: Ark state not imported");
     }
     const newIdentity = updatedIdentity;
     const userIndex = arkState.findIndex(
@@ -34,7 +34,7 @@ class ArkOracle extends NearContract {
     }
 
     arkState.splice(userIndex, 1, newIdentity);
-    this.state = JSON.stringify(arkState);
+    this.state = arkState;
 
     near.log(
       `the identity of ${newIdentity?.arweave_address} has been updated`
