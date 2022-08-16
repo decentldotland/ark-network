@@ -6,6 +6,7 @@ import { verifyUser } from "../../telegram/verify.js";
 import { red, green } from "../chalk.js";
 import { arweave } from "./network.js";
 import { canBeVerifiedNear } from "../near/config.js";
+import { updateUserIndentityNear } from "../near/ark-oracle-utils.js";
 import "../setEnv.js";
 
 const smartweave = SmartWeaveNodeFactory.memCached(arweave);
@@ -28,13 +29,17 @@ export async function checkAndVerifyUser(userObject) {
     const {
       arweave_address,
       evm_address,
-      is_evaluated,
       verification_req,
-      identity_id,
-      telegram_username,
       ver_req_network,
+      telegram,
+      identity_id,
+      is_verified,
+      is_evaluated,
+      last_modification,
       has_unevaluated_exotic_addrs,
       exotic_addresses,
+      last_validation,
+      validator
     } = userObject;
     // if the verification is on an EVM network
     if (!is_evaluated && !has_unevaluated_exotic_addrs) {
@@ -77,6 +82,11 @@ export async function checkAndVerifyUser(userObject) {
 
       await arweave.transactions.sign(tx, pk);
       await arweave.transactions.post(tx);
+
+      // log the new identity updates on Near testnet oracle
+      userObject.is_evaluated = true;
+      userObject.is_verified = identityValidity;
+      await updateUserIndentityNear(userObject);
 
       if (identityValidity) {
         console.log(
@@ -134,6 +144,11 @@ export async function checkAndVerifyUser(userObject) {
 
       await arweave.transactions.sign(tx, pk);
       await arweave.transactions.post(tx);
+
+      // log the new identity updates on Near testnet oracle
+      unevaluatedAddr.is_evaluated = true;
+      unevaluatedAddr.is_verified = isVerifiable;
+      await updateUserIndentityNear(userObject);
 
       if (isVerifiable) {
         console.log(
