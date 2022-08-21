@@ -1,6 +1,11 @@
 import { getOracleState } from "./cache-utils.js";
-import { ANS_CACHE_API, SERVER_ETH_RPC } from "./constants.js";
+import {
+  ANS_CACHE_API,
+  SERVER_ETH_RPC,
+  AVALANCHE_MAINNET_RPC,
+} from "./constants.js";
 import { ethers } from "ethers";
+import AVVY from "@avvy/client";
 import axios from "axios";
 import base64url from "base64url";
 
@@ -34,6 +39,7 @@ export async function getArkProfile(network, address) {
 
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
+    userProfile.AVVY = await getAvvyProfile(userProfile.evm_address);
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
     userProfile.ARWEAVE_TRANSACTIONS = await retrieveArtransactions(
       userProfile.arweave_address
@@ -103,6 +109,21 @@ async function getRss3Profile(eth_address) {
     }
 
     return { transactions: res2 };
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function getAvvyProfile(evm_address) {
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(
+      AVALANCHE_MAINNET_RPC
+    );
+    const avvy = new AVVY(provider);
+    const hash = await avvy.reverse(AVVY.RECORDS.EVM, evm_address);
+    const name = await hash.lookup();
+    return name.name;
   } catch (error) {
     console.log(error);
     return false;
