@@ -44,6 +44,7 @@ export async function getArkProfile(network, address) {
     userProfile.ARWEAVE_TRANSACTIONS = await retrieveArtransactions(
       userProfile.arweave_address
     );
+    await retrievNearTransaction(userProfile);
 
     return base64url(JSON.stringify({ res: userProfile }));
   } catch (error) {
@@ -167,4 +168,22 @@ async function retrieveArtransactions(arweave_address) {
     });
   }
   return transactions;
+}
+
+async function retrievNearTransaction(userProfile) {
+  try {
+    for (const identity of userProfile.exotic_addresses) {
+      if (identity.ver_req_network === "NEAR-MAINNET" && identity.is_verified) {
+        const transactions = (
+          await axios.get(
+            `https://nearblocks.io/api/account/txns?address=${identity.exotic_address}&limit=10&offset=0`
+          )
+        )?.data;
+        identity.NEAR_TRANSACTIONS = transactions;
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 }
