@@ -8,6 +8,7 @@ import { ethers } from "ethers";
 import AVVY from "@avvy/client";
 import axios from "axios";
 import base64url from "base64url";
+import "./setEnv.js";
 
 export async function getArkProfile(network, address) {
   try {
@@ -40,6 +41,7 @@ export async function getArkProfile(network, address) {
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
     userProfile.AVVY = await getAvvyProfile(userProfile.evm_address);
+    userProfile.MORALIS_NFTS = await getMoralisNfts(userProfile.evm_address);
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
     userProfile.ARWEAVE_TRANSACTIONS = await retrieveArtransactions(
       userProfile.arweave_address
@@ -182,6 +184,26 @@ async function retrievNearTransaction(userProfile) {
         identity.NEAR_TRANSACTIONS = transactions;
       }
     }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function getMoralisNfts(evm_address) {
+  try {
+    const res = (
+      await axios.get(
+        `https://deep-index.moralis.io/api/v2/${evm_address}/nft?chain=eth&format=decimal`,
+        {
+          headers: {
+            Accept: "application/json",
+            "X-API-Key": process.env.MORALIS_API_KEY,
+          },
+        }
+      )
+    )?.data;
+    return res?.result;
   } catch (error) {
     console.log(error);
     return false;
