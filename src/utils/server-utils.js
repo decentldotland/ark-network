@@ -4,6 +4,7 @@ import {
   SERVER_ETH_RPC,
   AVALANCHE_MAINNET_RPC,
 } from "./constants.js";
+import { getWeaveAggregator } from "weave-aggregator";
 import { ethers } from "ethers";
 import AVVY from "@avvy/client";
 import axios from "axios";
@@ -38,11 +39,14 @@ export async function getArkProfile(network, address) {
       return "e30";
     }
 
+    const atomicNfts = await getKoiiNfts(userProfile.arweave_address);
+
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
     userProfile.AVVY = await getAvvyProfile(userProfile.evm_address);
     userProfile.MORALIS_NFTS = await getMoralisNfts(userProfile.evm_address);
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
+    userProfile.ANFTS = atomicNfts.length > 0 ? { koii: atomicNfts } : {};
     userProfile.ARWEAVE_TRANSACTIONS = await retrieveArtransactions(
       userProfile.arweave_address
     );
@@ -130,6 +134,15 @@ async function getAvvyProfile(evm_address) {
   } catch (error) {
     console.log(error);
     return false;
+  }
+}
+
+async function getKoiiNfts(arweave_address) {
+  try {
+    const nfts = await getWeaveAggregator("koii", arweave_address);
+    return nfts;
+  } catch (error) {
+    return [];
   }
 }
 
