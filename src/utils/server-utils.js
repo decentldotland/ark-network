@@ -45,6 +45,7 @@ export async function getArkProfile(network, address) {
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
     userProfile.AVVY = await getAvvyProfile(userProfile.evm_address);
     userProfile.GITPOAPS = await getGitPoaps(userProfile.evm_address);
+    userProfile.POAPS = await getAllPoaps(userProfile.evm_address);
     userProfile.MORALIS_NFTS = await getMoralisNfts(userProfile.evm_address);
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
     userProfile.ANFTS = atomicNfts.length > 0 ? { koii: atomicNfts } : {};
@@ -144,6 +145,21 @@ async function getKoiiNfts(arweave_address) {
     return nfts;
   } catch (error) {
     return [];
+  }
+}
+
+async function getAllPoaps(evm_address) {
+  try {
+    const API_KEY = process.env.POAP_API_KEY;
+    const res = await axios.get(
+      `https://api.poap.tech/actions/scan/${evm_address}`,
+      {
+        headers: { "Content-Type": "application/json", "X-API-Key": API_KEY },
+      }
+    );
+    return res?.data;
+  } catch (error) {
+    return null;
   }
 }
 
