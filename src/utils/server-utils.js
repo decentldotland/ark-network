@@ -48,6 +48,7 @@ export async function getArkProfile(network, address) {
     userProfile.POAPS = await getAllPoaps(userProfile.evm_address);
     userProfile.MORALIS_NFTS = await getMoralisNfts(userProfile.evm_address);
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
+    userProfile.GALAXY_CREDS = await getGalaxyCreds(userProfile.evm_address);
     userProfile.ANFTS = atomicNfts.length > 0 ? { koii: atomicNfts } : {};
     userProfile.ARWEAVE_TRANSACTIONS = await retrieveArtransactions(
       userProfile.arweave_address
@@ -251,5 +252,34 @@ async function getMoralisNfts(evm_address) {
   } catch (error) {
     console.log(error);
     return false;
+  }
+}
+
+async function getGalaxyCreds(address) {
+  try {
+    const q = {
+      query: `query userCredentials {
+  addressInfo(address: "${address}") {
+    id
+    avatar
+    username
+    eligibleCredentials(first: 1000, after: "") {
+      list {
+        id
+        name
+      }
+    }
+  }
+}`,
+    };
+    const res = (
+      await axios.post("https://graphigo.prd.galaxy.eco/query", q, {
+        headers: { "Content-Type": "application/json" },
+      })
+    )?.data;
+
+    return res?.data?.addressInfo;
+  } catch (error) {
+    return null;
   }
 }
