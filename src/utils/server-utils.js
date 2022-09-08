@@ -7,6 +7,7 @@ import {
 import { getUserRegistrationTimestamp } from "./arweave/graphql.js";
 import { getWeaveAggregator } from "weave-aggregator";
 import { ethers } from "ethers";
+import { isVouched } from "vouchdao";
 import AVVY from "@avvy/client";
 import axios from "axios";
 import base64url from "base64url";
@@ -48,6 +49,7 @@ export async function getArkProfile(network, address) {
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
     userProfile.AVVY = await getAvvyProfile(userProfile.evm_address);
+    userProfile.IS_VOUCHED = await isVouched(userProfile.arweave_address);
     userProfile.GITPOAPS = await getGitPoaps(userProfile.evm_address);
     userProfile.POAPS = await getAllPoaps(userProfile.evm_address);
     userProfile.MORALIS_NFTS = await getMoralisNfts(userProfile.evm_address);
