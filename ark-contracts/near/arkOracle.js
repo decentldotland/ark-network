@@ -19,8 +19,8 @@ class ArkOracle extends NearContract {
     _onlyOwner();
     const arkState = this.state;
 
-    if(!arkState || arkState?.length <= 0) {
-        near.panic("ERROR: Ark state not imported");
+    if (!arkState || arkState?.length <= 0) {
+      near.panic("ERROR: Ark state not imported");
     }
     const newIdentity = updatedIdentity;
     const userIndex = arkState.findIndex(
@@ -44,6 +44,25 @@ class ArkOracle extends NearContract {
   @view
   readArkState() {
     return this.state;
+  }
+
+  @view
+  getNearLinkedUsers() {
+    return this.state.filter((user) =>
+      user?.exotic_addresses.find(
+        (addr) => addr?.ver_req_network === "NEAR-MAINNET"
+      )
+    );
+  }
+
+  @view
+  getNearVerifiedUsersOnly() {
+    const allNearUsers = this.getNearLinkedUsers();
+    return allNearUsers.filter((user) =>
+      user.exotic_addresses.find(
+        (addr) => addr.is_verified && addr.is_evaluated
+      )
+    );
   }
 
   @view
