@@ -52,3 +52,6 @@ export const RPC_PORT = 9545;
 // APIs
 export const ANS_CACHE_API = `https://ans-stats.decent.land/users`;
 export const SERVER_ETH_RPC = `https://cloudflare-eth.com`;
+
+// UTILS
+export const URBIT_ID_CONTRACT = `0x33eecbf908478c10614626a9d304bfe18b78dd73`;
