@@ -3,6 +3,7 @@ import {
   ANS_CACHE_API,
   SERVER_ETH_RPC,
   AVALANCHE_MAINNET_RPC,
+  URBIT_ID_CONTRACT,
 } from "./constants.js";
 import { getUserRegistrationTimestamp } from "./arweave/graphql.js";
 import { getWeaveAggregator } from "weave-aggregator";
@@ -44,15 +45,17 @@ export async function getArkProfile(network, address) {
     userProfile.first_linkage = await getUserRegistrationTimestamp(
       userProfile.arweave_address
     );
-
     const atomicNfts = await getKoiiNfts(userProfile.arweave_address);
+    const ercNfts = await getMoralisNfts(userProfile.evm_address);
+
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
     userProfile.AVVY = await getAvvyProfile(userProfile.evm_address);
-    userProfile.IS_VOUCHED = await isVouched(userProfile.arweave_address);
+    userProfile.IS_VOUCHED = await isVouched(userProfile.arweave_address)
     userProfile.GITPOAPS = await getGitPoaps(userProfile.evm_address);
     userProfile.POAPS = await getAllPoaps(userProfile.evm_address);
-    userProfile.MORALIS_NFTS = await getMoralisNfts(userProfile.evm_address);
+    userProfile.ERC_NFTS = ercNfts;
+    userProfile.URBIT_IDS = ercNfts.filter((nft) => nft.token_address == URBIT_ID_CONTRACT);
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
     userProfile.GALAXY_CREDS = await getGalaxyCreds(userProfile.evm_address);
     userProfile.ANFTS = atomicNfts.length > 0 ? { koii: atomicNfts } : {};
