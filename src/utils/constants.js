@@ -55,3 +55,5 @@ export const SERVER_ETH_RPC = `https://cloudflare-eth.com`;
 
 // UTILS
 export const URBIT_ID_CONTRACT = `0x33eecbf908478c10614626a9d304bfe18b78dd73`;
+export const LENS_LPP_CONTRACT = `0xdb46d1dc155634fbc732f92e853b10b288ad5a1d`;
+
