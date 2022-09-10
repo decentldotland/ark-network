@@ -4,6 +4,7 @@ import {
   SERVER_ETH_RPC,
   AVALANCHE_MAINNET_RPC,
   URBIT_ID_CONTRACT,
+  LENS_LPP_CONTRACT,
 } from "./constants.js";
 import { getUserRegistrationTimestamp } from "./arweave/graphql.js";
 import { getWeaveAggregator } from "weave-aggregator";
@@ -51,11 +52,14 @@ export async function getArkProfile(network, address) {
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
     userProfile.AVVY = await getAvvyProfile(userProfile.evm_address);
-    userProfile.IS_VOUCHED = await isVouched(userProfile.arweave_address)
+    userProfile.IS_VOUCHED = await isVouched(userProfile.arweave_address);
+    userProfile.LENS_HANDLES = await getLensHandles(userProfile.evm_address);
     userProfile.GITPOAPS = await getGitPoaps(userProfile.evm_address);
     userProfile.POAPS = await getAllPoaps(userProfile.evm_address);
     userProfile.ERC_NFTS = ercNfts;
-    userProfile.URBIT_IDS = ercNfts.filter((nft) => nft.token_address == URBIT_ID_CONTRACT);
+    userProfile.URBIT_IDS = ercNfts.filter(
+      (nft) => nft.token_address == URBIT_ID_CONTRACT
+    );
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
     userProfile.GALAXY_CREDS = await getGalaxyCreds(userProfile.evm_address);
     userProfile.ANFTS = atomicNfts.length > 0 ? { koii: atomicNfts } : {};
@@ -258,6 +262,33 @@ async function getMoralisNfts(evm_address) {
       )
     )?.data;
     return res?.result;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function getLensHandles(evm_address) {
+  try {
+    const res = (
+      await axios.get(
+        `https://deep-index.moralis.io/api/v2/${evm_address}/nft?chain=polygon&format=decimal`,
+        {
+          headers: {
+            Accept: "application/json",
+            "X-API-Key": process.env.MORALIS_API_KEY,
+          },
+        }
+      )
+    )?.data;
+    const handles = res?.result.filter(
+      (nft) => nft.token_address == LENS_LPP_CONTRACT
+    );
+    if (handles.length) {
+      return handles.map((handle) => JSON.parse(handle.metadata)?.name);
+    }
+
+    return handles;
   } catch (error) {
     console.log(error);
     return false;
