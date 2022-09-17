@@ -1,6 +1,6 @@
 {
   "name": "ark-network",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "type": "module",
   "description": "Verifiable multichain identities",
   "main": "./src/app.js",
@@ -36,6 +36,7 @@
     "express": "^4.18.1",
     "near-api-js": "^0.45.1",
     "node-cache": "^5.1.2",
+    "node-gzip": "^1.1.2",
     "redstone-smartweave": "^0.4.4",
     "sha256": "^0.2.0",
     "weave-aggregator": "^0.3.8",
