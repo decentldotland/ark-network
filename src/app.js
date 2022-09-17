@@ -10,6 +10,7 @@ import { getArkProfile } from "./utils/server-utils.js";
 import express from "express";
 import base64url from "base64url";
 import cors from "cors";
+import { gzip } from "node-gzip";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -47,13 +48,28 @@ app.get("/v1/network/addresses", async (req, res) => {
   res.send(addresses);
 });
 
-app.get("/v1/profile/:network/:address", async (req, res) => {
-  res.setHeader("Content-Type", "application/json");
+app.get("/v1/profile/:network/:address/:compress?", async (req, res) => {
   const profile = await getArkProfile(req.params.network, req.params.address);
   if (!profile) {
+    if (req.params.compress) {
+      res.setHeader("Content-Type", "application/octet-stream");
+      const data = await gzip(`{}`);
+      res.send(data);
+      return;
+    }
+
+    res.setHeader("Content-Type", "application/json");
     res.send(JSON.parse(`{}`));
     return;
   }
+
+  if (req.params.compress) {
+    res.setHeader("Content-Type", "application/octet-stream");
+    const data = await gzip(base64url.decode(profile));
+    res.send(data);
+    return;
+  }
+  res.setHeader("Content-Type", "application/json");
   const jsonRes = JSON.parse(base64url.decode(profile));
   res.send(jsonRes);
 });
