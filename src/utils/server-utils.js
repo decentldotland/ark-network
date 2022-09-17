@@ -46,7 +46,8 @@ export async function getArkProfile(network, address) {
     userProfile.first_linkage = await getUserRegistrationTimestamp(
       userProfile.arweave_address
     );
-    const atomicNfts = await getKoiiNfts(userProfile.arweave_address);
+    const koiiNfts = await getKoiiNfts(userProfile.arweave_address);
+    const permapagesNfts = await getPermaPagesNfts(userProfile.arweave_address);
     const ercNfts = await getMoralisNfts(userProfile.evm_address);
 
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
@@ -62,7 +63,10 @@ export async function getArkProfile(network, address) {
     );
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
     userProfile.GALAXY_CREDS = await getGalaxyCreds(userProfile.evm_address);
-    userProfile.ANFTS = atomicNfts.length > 0 ? { koii: atomicNfts } : {};
+    userProfile.ANFTS =
+      koiiNfts.length > 0 || permapagesNfts.length > 0
+        ? { koii: koiiNfts, permapages_img: permapagesNfts }
+        : {};
     userProfile.ARWEAVE_TRANSACTIONS = await retrieveArtransactions(
       userProfile.arweave_address
     );
@@ -156,6 +160,15 @@ async function getAvvyProfile(evm_address) {
 async function getKoiiNfts(arweave_address) {
   try {
     const nfts = await getWeaveAggregator("koii", arweave_address);
+    return nfts;
+  } catch (error) {
+    return [];
+  }
+}
+
+async function getPermaPagesNfts(arweave_address) {
+  try {
+    const nfts = await getWeaveAggregator("permapages-img", arweave_address);
     return nfts;
   } catch (error) {
     return [];
