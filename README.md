@@ -255,11 +255,14 @@ Reponse example: return the validators addresses and the smart contracts address
 #### To get the active Arweave oracle contract, always use the `arweave_oracle_addr` from `/network/addresses`
 
 ### 4- get Ark profile metadata
-- `GET /profile/:network/:address`
+- `GET /ark/profile/:network/:address/:compress?`
 
 `network` can be either `arweave` or `evm` - and thus `address` should be on the equivalent network.
 
-Response: return user's Ark identity metadata, ANS and ENS domains (if found)
+Response: return user's Ark identity multichain metadata.
+
+#### N.B `compress` (bool) is a parameter that if seeded, gzip the API's response 
+
 
 ## License
 This project is licensed under the [MIT license](./LICENSE).
