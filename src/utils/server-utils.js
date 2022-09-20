@@ -70,6 +70,8 @@ export async function getArkProfile(network, address) {
     userProfile.ARWEAVE_TRANSACTIONS = await retrieveArtransactions(
       userProfile.arweave_address
     );
+    userProfile.STAMPS = await getPermaPagesStamps(userProfile.arweave_address);
+    
     await retrievNearTransaction(userProfile);
 
     return base64url(JSON.stringify({ res: userProfile }));
@@ -169,6 +171,15 @@ async function getKoiiNfts(arweave_address) {
 async function getPermaPagesNfts(arweave_address) {
   try {
     const nfts = await getWeaveAggregator("permapages-img", arweave_address);
+    return nfts;
+  } catch (error) {
+    return [];
+  }
+}
+
+async function getPermaPagesStamps(arweave_address) {
+  try {
+    const nfts = await getWeaveAggregator("permapages-stamps", arweave_address);
     return nfts;
   } catch (error) {
     return [];
