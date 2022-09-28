@@ -61,6 +61,7 @@ export async function getArkProfile(network, address) {
     userProfile.URBIT_IDS = ercNfts.filter(
       (nft) => nft.token_address == URBIT_ID_CONTRACT
     );
+    userProfile.LENS_PROTOCOLS_ACTV = await getLensProtocolsActv(userProfile.evm_address);
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
     userProfile.GALAXY_CREDS = await getGalaxyCreds(userProfile.evm_address);
     userProfile.ANFTS =
@@ -143,6 +144,26 @@ async function getRss3Profile(eth_address) {
     return false;
   }
 }
+
+async function getLensProtocolsActv(eth_address) {
+  try {
+    const activities = {
+      method: "get",
+      url: `https://pregod.rss3.dev/v1/notes/${eth_address}?tag=social&network=polygon`,
+      headers: {
+        Accept: "application/json",
+      },
+    };
+
+    const res = (await axios(activities))?.data?.result;
+
+    return res;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 
 async function getAvvyProfile(evm_address) {
   try {
