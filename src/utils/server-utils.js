@@ -53,6 +53,7 @@ export async function getArkProfile(network, address) {
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
     userProfile.AVVY = await getAvvyProfile(userProfile.evm_address);
+    userProfile.LINAGEE = await getLinageeDomains(userProfile.evm_address);
     userProfile.IS_VOUCHED = await isVouched(userProfile.arweave_address);
     userProfile.LENS_HANDLES = await getLensHandles(userProfile.evm_address);
     userProfile.GITPOAPS = await getGitPoaps(userProfile.evm_address);
@@ -339,6 +340,37 @@ async function getLensHandles(evm_address) {
     return false;
   }
 }
+
+async function getLinageeDomains(address) {
+  try {
+    const options = {
+      method: "GET",
+      url: `https://deep-index.moralis.io/api/v2/${address}/nft`,
+      params: {
+        chain: "eth",
+        format: "decimal",
+        token_addresses: "0x2cc8342d7c8bff5a213eb2cde39de9a59b3461a7",
+      },
+      headers: { accept: "application/json", "X-API-Key": "test" },
+    };
+
+    const res = await axios.request(options);
+
+    for (const domain of res?.data?.result) {
+      domain.open_sea_url = `https://opensea.io/assets/ethereum/0x2cc8342d7c8bff5a213eb2cde39de9a59b3461a7/${domain.token_id}`;
+      // delete unnecessay metadata
+      delete domain.token_uri;
+      delete domain.metadata;
+      delete domain.last_token_uri_sync;
+      delete domain.last_metadata_sync;
+    }
+    return res?.data?.result;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
 
 async function getGalaxyCreds(address) {
   try {
