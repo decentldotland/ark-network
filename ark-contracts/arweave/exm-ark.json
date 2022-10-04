@@ -1,0 +1,20 @@
+{
+  "evm_networks": [
+    "AURORA-MAINNET",
+    "AURORA-TESTNET",
+    "BSC-MAINNET",
+    "BSC-TESTNET",
+    "ETH-MAINNET",
+    "ETH-GOERLI",
+    "NEON-DEVNET",
+    "AVALANCHE-MAINNET",
+    "FUJI-C-CHAIN",
+    "FTM-MAINNET",
+    "OPTIMISM-MAINNET",
+    "ARBITRUM-MAINNET",
+    "POLYGON-MAINNET"
+  ],
+  "exotic_networks": ["NEAR-MAINNET"],
+  "identities": [],
+  "verRequests": []
+}
