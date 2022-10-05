@@ -10,7 +10,7 @@
  *         ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝        ╚═╝░░╚══╝╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝
  *
  * @title Ark Network Arweave oracle
- * @version EXM@v0.0.1
+ * @version EXM@v0.0.2
  * @author charmful0x
  * @license MIT
  * @website decent.land
@@ -87,7 +87,7 @@ export async function handle(state, action) {
         primary_address: address,
         did: `did:ar:${caller}`,
         is_verified: false, // `true` when the user has his primary address evaluated & verified
-        last_modification: await SmartWeave.block.height,
+        last_modification: SmartWeave.block.height,
         unevaluated_addresses: [address],
         addresses: [
           {
@@ -157,6 +157,8 @@ export async function handle(state, action) {
     user.primary_address = primary_address;
     // user's verification is tied to the primary address validity
     user.is_verified = user.addresses[addressIndex].is_verified;
+    // log the update's blockheight
+    user.last_modification = SmartWeave.block.height;
 
     return { state };
   }
@@ -212,6 +214,7 @@ export async function handle(state, action) {
           user.is_verified = true;
 
           user.addresses.splice(addressIndex, 1);
+          user.last_modification = SmartWeave.block.height;
 
           return { state };
         }
@@ -224,6 +227,7 @@ export async function handle(state, action) {
           user.is_verified = firstNonEqualAddr.is_verified;
 
           user.addresses.splice(addressIndex, 1);
+          user.last_modification = SmartWeave.block.height;
 
           return { state };
         }
@@ -231,6 +235,7 @@ export async function handle(state, action) {
       // 3- if the to-unlink address is !== primary_address, then remove the to-unlink
       // from the `addresses` array
       user.addresses.splice(addressIndex, 1);
+      user.last_modification = SmartWeave.block.height;
       return { state };
     }
 
@@ -290,6 +295,8 @@ export async function handle(state, action) {
     user.addresses[evaluatedAddrIndex].is_evaluated = true;
     //  remove the address from the unevalated_addresses array
     user.unevaluated_addresses.splice(unevaluatedAddrIndex, 1);
+
+    user.last_modification = SmartWeave.block.height;
 
     if (evaluation) {
       verRequests.push(user.addresses[userIndex].verification_req);
