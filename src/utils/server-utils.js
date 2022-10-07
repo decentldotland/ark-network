@@ -167,6 +167,7 @@ async function getCrossbellsOf(evm_address) {
     return res;
   } catch (error) {
     console.log(error);
+    return false;
   }
 }
 
