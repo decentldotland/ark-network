@@ -10,6 +10,7 @@ import { getUserRegistrationTimestamp } from "./arweave/graphql.js";
 import { getWeaveAggregator } from "weave-aggregator";
 import { ethers } from "ethers";
 import { isVouched } from "vouchdao";
+import { Indexer } from "crossbell.js";
 import AVVY from "@avvy/client";
 import axios from "axios";
 import base64url from "base64url";
@@ -54,6 +55,7 @@ export async function getArkProfile(network, address) {
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
     userProfile.AVVY = await getAvvyProfile(userProfile.evm_address);
     userProfile.LINAGEE = await getLinageeDomains(userProfile.evm_address);
+    userProfile.CROSSBELL_HANDLES = await getCrossbellsOf(userProfile.evm_address);
     userProfile.IS_VOUCHED = await isVouched(userProfile.arweave_address);
     userProfile.LENS_HANDLES = await getLensHandles(userProfile.evm_address);
     userProfile.GITPOAPS = await getGitPoaps(userProfile.evm_address);
@@ -143,6 +145,28 @@ async function getRss3Profile(eth_address) {
   } catch (error) {
     console.log(error);
     return false;
+  }
+}
+
+
+async function getCrossbellsOf(evm_address) {
+  try {
+    const res = [];
+    const indexer = new Indexer();
+
+    const characters = await indexer.getCharacters(evm_address);
+
+    for (const character of characters?.list) {
+      res.push({
+        handle: character?.handle,
+        metadata: character?.metadata,
+        primary: character?.primary,
+      });
+    }
+
+    return res;
+  } catch (error) {
+    console.log(error);
   }
 }
 
