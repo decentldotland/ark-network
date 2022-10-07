@@ -10,7 +10,7 @@
  *         ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝        ╚═╝░░╚══╝╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝
  *
  * @title Ark Network Arweave oracle
- * @version EXM@v0.0.2
+ * @version EXM@v0.0.3
  * @author charmful0x
  * @license MIT
  * @website decent.land
@@ -299,7 +299,7 @@ export async function handle(state, action) {
     user.last_modification = SmartWeave.block.height;
 
     if (evaluation) {
-      verRequests.push(user.addresses[userIndex].verification_req);
+      verRequests.push(user.addresses[evaluatedAddrIndex].verification_req);
     }
 
     return { state };
