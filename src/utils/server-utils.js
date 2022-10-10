@@ -76,7 +76,7 @@ export async function getArkProfile(network, address) {
     );
     userProfile.STAMPS = await getPermaPagesStamps(userProfile.arweave_address);
     
-    await retrievNearTransaction(userProfile);
+    // await retrievNearTransaction(userProfile);
 
     return base64url(JSON.stringify({ res: userProfile }));
   } catch (error) {
