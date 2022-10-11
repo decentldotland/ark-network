@@ -10,7 +10,7 @@
  *         ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝        ╚═╝░░╚══╝╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝
  *
  * @title Ark Network Arweave oracle
- * @version EXM@v0.0.3
+ * @version EXM@v0.0.4
  * @author charmful0x
  * @license MIT
  * @website decent.land
@@ -81,6 +81,8 @@ export async function handle(state, action) {
     _validateAddrSig(address, verificationReq, network);
     _checkSignature(verificationReq);
 
+    const networkKey = _resolveNetwork(network);
+
     if (userIndex === -1) {
       identities.push({
         arweave_address: caller,
@@ -93,6 +95,7 @@ export async function handle(state, action) {
           {
             address: address,
             network: network,
+            ark_key: networkKey,
             verification_req: verificationReq,
             is_verified: false,
             is_evaluated: false,
@@ -110,6 +113,7 @@ export async function handle(state, action) {
     user.addresses.push({
       address: address,
       network: network,
+      ark_key: networkKey,
       verification_req: verificationReq,
       is_verified: false,
       is_evaluated: false,
@@ -414,14 +418,21 @@ export async function handle(state, action) {
     }
   }
 
-  function _validateNetwork(network, key) {
+  function _validateNetwork(network) {
     ContractAssert(networks.includes(network), ERROR_INVALID_NETWORK_SUPPLIED);
+  }
+
+  function _resolveNetwork(network) {
+    const key = evm_networks.includes(network) ? "EVM" : "EXOTIC";
+    return key;
   }
 
   function _checkAddrUsageDuplication(address) {
     const isDuplicated = identities.findIndex((user) =>
       user.addresses.find(
-        (addr) => addr["address"] === address && !!addr.is_verified
+        (addr) =>
+          addr["address"]?.toUpperCase() === address.toUpperCase() &&
+          !!addr.is_verified
       )
     );
     ContractAssert(isDuplicated < 0, ERROR_ADDRESS_ALREADY_USED);
