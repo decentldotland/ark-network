@@ -4,6 +4,7 @@
 - v0.0.1: [6luWGmRv53cUUeIg6NJtyG9-x_1lKFNOETaHvQsjuTU](https://api.exm.dev/read/6luWGmRv53cUUeIg6NJtyG9-x_1lKFNOETaHvQsjuTU)
 - v0.0.2 (chore): [h6PVMX0X-PTacaC2zqV3ks3mvK0yzpPsE0DhzXTTsyQ](https://api.exm.dev/read/h6PVMX0X-PTacaC2zqV3ks3mvK0yzpPsE0DhzXTTsyQ)
 - v0.0.3 (fixes): [U5joFbWUAVSLuWlNT7q35ZGAuNzMQIXD73O5nGtxbH4](https://api.exm.dev/read/U5joFbWUAVSLuWlNT7q35ZGAuNzMQIXD73O5nGtxbH4)
+- - v0.0.4 (chore: ark key): [wfngDtq_XRdRX2NGrBDZjP0Mpr4Dk-guEJkG4RyNd4w](https://api.exm.dev/read/wfngDtq_XRdRX2NGrBDZjP0Mpr4Dk-guEJkG4RyNd4w)
 
 ### Requirements
 - Token ID creation on [exm.dev](https://exm.dev/login).
