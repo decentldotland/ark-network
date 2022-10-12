@@ -10,7 +10,7 @@
  *         ╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝        ╚═╝░░╚══╝╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝
  *
  * @title Ark Network Arweave oracle
- * @version EXM@v0.0.4
+ * @version EXM@v0.0.5
  * @author charmful0x
  * @license MIT
  * @website decent.land
@@ -82,6 +82,7 @@ export async function handle(state, action) {
     _checkSignature(verificationReq);
 
     const networkKey = _resolveNetwork(network);
+    const currentTimestamp = await _getTimestamp();
 
     if (userIndex === -1) {
       identities.push({
@@ -89,7 +90,8 @@ export async function handle(state, action) {
         primary_address: address,
         did: `did:ar:${caller}`,
         is_verified: false, // `true` when the user has his primary address evaluated & verified
-        last_modification: SmartWeave.block.height,
+        first_linkage: currentTimestamp,
+        last_modification: currentTimestamp,
         unevaluated_addresses: [address],
         addresses: [
           {
@@ -120,7 +122,7 @@ export async function handle(state, action) {
     });
 
     user.unevaluated_addresses.push(address);
-    user.last_modification = SmartWeave.block.height;
+    user.last_modification = currentTimestamp;
 
     return { state };
   }
@@ -162,7 +164,7 @@ export async function handle(state, action) {
     // user's verification is tied to the primary address validity
     user.is_verified = user.addresses[addressIndex].is_verified;
     // log the update's blockheight
-    user.last_modification = SmartWeave.block.height;
+    user.last_modification = await _getTimestamp();
 
     return { state };
   }
@@ -218,7 +220,7 @@ export async function handle(state, action) {
           user.is_verified = true;
 
           user.addresses.splice(addressIndex, 1);
-          user.last_modification = SmartWeave.block.height;
+          user.last_modification = await _getTimestamp();
 
           return { state };
         }
@@ -231,7 +233,7 @@ export async function handle(state, action) {
           user.is_verified = firstNonEqualAddr.is_verified;
 
           user.addresses.splice(addressIndex, 1);
-          user.last_modification = SmartWeave.block.height;
+          user.last_modification = await _getTimestamp();
 
           return { state };
         }
@@ -239,7 +241,7 @@ export async function handle(state, action) {
       // 3- if the to-unlink address is !== primary_address, then remove the to-unlink
       // from the `addresses` array
       user.addresses.splice(addressIndex, 1);
-      user.last_modification = SmartWeave.block.height;
+      user.last_modification = await _getTimestamp();
       return { state };
     }
 
@@ -300,7 +302,7 @@ export async function handle(state, action) {
     //  remove the address from the unevalated_addresses array
     user.unevaluated_addresses.splice(unevaluatedAddrIndex, 1);
 
-    user.last_modification = SmartWeave.block.height;
+    user.last_modification = await _getTimestamp();
 
     if (evaluation) {
       verRequests.push(user.addresses[evaluatedAddrIndex].verification_req);
@@ -443,5 +445,13 @@ export async function handle(state, action) {
       (addr) => addr["address"] === address
     );
     ContractAssert(fatFinger < 0, ERROR_ADDRESS_ALREADY_USED_FOR_LINKAGE);
+  }
+
+  async function _getTimestamp() {
+    try {
+      return EXM.getDate().getTime();
+    } catch (error) {
+      return null;
+    }
   }
 }
