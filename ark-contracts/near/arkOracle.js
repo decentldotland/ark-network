@@ -41,6 +41,35 @@ class ArkOracle extends NearContract {
     );
   }
 
+  @call
+  append_user_identity({ identity = {} }) {
+    _onlyOwner();
+    const arkState = this.state;
+
+    if (!arkState || !arkState?.length) {
+      near.panic("ERROR: Ark state not imported");
+    }
+
+    // double check for identity existence
+    const duplicationIndex = arkState.findIndex(
+      (user) => user.arweave_address === identity?.arweave_address
+    );
+
+    if (duplicationIndex >= 0) {
+      near.panic("ERROR: identity already added");
+    }
+
+    if (!identity?.arweave_address) {
+      near.panic(`ERROR: identity must be provided as an object`);
+    }
+
+    arkState.push(identity);
+
+    this.state = arkState;
+
+    near.log(`Added a new identity to the state: ${identity?.arweave_address}`);
+  }
+
   @view
   readArkState() {
     return this.state;
