@@ -18,6 +18,7 @@ export const FTM_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 export const OPTIMISM_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 export const ARBITRUM_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 export const POLYGON_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
+export const EVMOS_MAINNET_ADDRESS = `0xdE44d3fB118E0f007f2C0D8fFFE98b994383949A`;
 export const NEAR_MAINNET_ADDRESS = `ark_station_1.near`;
 
 export const EVM_ORACLES_CONTRACTS = [
@@ -31,6 +32,7 @@ export const EVM_ORACLES_CONTRACTS = [
   FTM_MAINNET_ADDRESS,
   OPTIMISM_MAINNET_ADDRESS,
   ARBITRUM_MAINNET_ADDRESS,
+  EVMOS_MAINNET_ADDRESS,
 ];
 
 // RPCs
@@ -47,6 +49,7 @@ export const FTM_MAINNET_RPC = `https://rpc.ftm.tools/`;
 export const OPTIMISM_MAINNET_RPC = `https://mainnet.optimism.io`;
 export const ARBITRUM_MAINNET_RPC = `https://arb1.arbitrum.io/rpc`;
 export const POLYGON_MAINNET_RPC = `https://polygon-rpc.com`;
+export const EVMOS_MAINNET_RPC = `https://eth.bd.evmos.org:8545`;
 export const RPC_PORT = 9545;
 
 // APIs
