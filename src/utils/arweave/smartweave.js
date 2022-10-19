@@ -86,7 +86,7 @@ export async function checkAndVerifyUser(userObject) {
       // log the new identity updates on Near testnet oracle
       userObject.is_evaluated = true;
       userObject.is_verified = identityValidity;
-      await updateUserIndentityNear(userObject);
+      // await updateUserIndentityNear(userObject);
 
       if (identityValidity) {
         console.log(
@@ -148,7 +148,7 @@ export async function checkAndVerifyUser(userObject) {
       // log the new identity updates on Near testnet oracle
       unevaluatedAddr.is_evaluated = true;
       unevaluatedAddr.is_verified = isVerifiable;
-      await updateUserIndentityNear(userObject);
+      // await updateUserIndentityNear(userObject);
 
       if (isVerifiable) {
         console.log(
