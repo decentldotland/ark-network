@@ -12,7 +12,8 @@ import {
   OPTIMISM_MAINNET_ADDRESS,
   ARBITRUM_MAINNET_ADDRESS,
   POLYGON_MAINNET_ADDRESS,
-  NEAR_MAINNET_ADDRESS
+  NEAR_MAINNET_ADDRESS,
+  EVMOS_MAINNET_ADDRESS,
 } from "./constants.js";
 import base64url from "base64url";
 
@@ -103,6 +104,10 @@ export async function getNetworkAddresses() {
       polygon_oracle_addr: {
         addr: POLYGON_MAINNET_ADDRESS,
         network: "polygon-mainnet",
+      },
+      evmos_mainnet_addr: {
+        addr: EVMOS_MAINNET_ADDRESS,
+        network: "evmos-mainnet",
       },
       near_mainnet_addr: {
         addr: NEAR_MAINNET_ADDRESS,
