@@ -52,7 +52,8 @@ app.get("/v1/profile/:network/:address/:compress?", async (req, res) => {
   const profile = await getArkProfile(req.params.network, req.params.address);
   if (!profile) {
     if (req.params.compress) {
-      res.setHeader("Content-Type", "application/octet-stream");
+      res.setHeader("Content-Type", "text/plain");
+      res.setHeader("Content-Encoding", "gzip")
       const data = await gzip(`{}`);
       res.send(data);
       return;
@@ -64,8 +65,10 @@ app.get("/v1/profile/:network/:address/:compress?", async (req, res) => {
   }
 
   if (req.params.compress) {
-    res.setHeader("Content-Type", "application/octet-stream");
-    const data = await gzip(base64url.decode(profile));
+    res.setHeader("Content-Type", "text/plain");
+    res.setHeader("Content-Encoding", "gzip")
+    const decodedRes = base64url.decode(profile)
+    const data = await gzip(JSON.stringify(decodedRes));
     res.send(data);
     return;
   }
