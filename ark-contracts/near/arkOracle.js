@@ -46,21 +46,19 @@ class ArkOracle extends NearContract {
     _onlyOwner();
     const arkState = this.state;
 
-    if (!arkState || !arkState?.length) {
-      near.panic("ERROR: Ark state not imported");
+    if (!arkState) {
+        near.panic("ERROR: Ark state not initialized");
     }
 
     // double check for identity existence
-    const duplicationIndex = arkState.findIndex(
-      (user) => user.arweave_address === identity?.arweave_address
-    );
-
+    const duplicationIndex = arkState.findIndex((user) => user.arweave_address === identity?.arweave_address);
+    
     if (duplicationIndex >= 0) {
-      near.panic("ERROR: identity already added");
+        near.panic("ERROR: identity already added");
     }
 
     if (!identity?.arweave_address) {
-      near.panic(`ERROR: identity must be provided as an object`);
+        near.panic(`ERROR: identity must be provided as an object`)
     }
 
     arkState.push(identity);
