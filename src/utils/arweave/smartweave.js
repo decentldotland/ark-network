@@ -2,7 +2,6 @@ import { getTransaction } from "../evm/ethers.js";
 import { checkTopicAgainstAddress } from "../evm/web3.js";
 import { ARWEAVE_ORACLE_ADDRESS, EVM_ORACLES_CONTRACTS } from "../constants.js";
 import { SmartWeaveNodeFactory, LoggerFactory } from "redstone-smartweave";
-import { verifyUser } from "../../telegram/verify.js";
 import { red, green } from "../chalk.js";
 import { arweave } from "./network.js";
 import { canBeVerifiedNear } from "../near/config.js";
