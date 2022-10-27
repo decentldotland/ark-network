@@ -3,6 +3,7 @@ import {
   ANS_CACHE_API,
   SERVER_ETH_RPC,
   AVALANCHE_MAINNET_RPC,
+  EVMOS_MAINNET_RPC,
   URBIT_ID_CONTRACT,
   LENS_LPP_CONTRACT,
 } from "./constants.js";
@@ -12,6 +13,8 @@ import { ethers } from "ethers";
 import { isVouched } from "vouchdao";
 import { Indexer } from "crossbell.js";
 import AVVY from "@avvy/client";
+import ENS from "@evmosdomains/sdk";
+import getName from "@evmosdomains/sdk";
 import axios from "axios";
 import base64url from "base64url";
 import "./setEnv.js";
@@ -54,8 +57,11 @@ export async function getArkProfile(network, address) {
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
     userProfile.AVVY = await getAvvyProfile(userProfile.evm_address);
+    userProfile.EVMOS = await getEvmosProfile(userProfile.evm_address);
     userProfile.LINAGEE = await getLinageeDomains(userProfile.evm_address);
-    userProfile.CROSSBELL_HANDLES = await getCrossbellsOf(userProfile.evm_address);
+    userProfile.CROSSBELL_HANDLES = await getCrossbellsOf(
+      userProfile.evm_address
+    );
     userProfile.IS_VOUCHED = await isVouched(userProfile.arweave_address);
     userProfile.LENS_HANDLES = await getLensHandles(userProfile.evm_address);
     userProfile.GITPOAPS = await getGitPoaps(userProfile.evm_address);
@@ -64,7 +70,9 @@ export async function getArkProfile(network, address) {
     userProfile.URBIT_IDS = ercNfts.filter(
       (nft) => nft.token_address == URBIT_ID_CONTRACT
     );
-    userProfile.LENS_PROTOCOLS_ACTV = await getLensProtocolsActv(userProfile.evm_address);
+    userProfile.LENS_PROTOCOLS_ACTV = await getLensProtocolsActv(
+      userProfile.evm_address
+    );
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
     userProfile.GALAXY_CREDS = await getGalaxyCreds(userProfile.evm_address);
     userProfile.ANFTS =
@@ -75,7 +83,7 @@ export async function getArkProfile(network, address) {
       userProfile.arweave_address
     );
     userProfile.STAMPS = await getPermaPagesStamps(userProfile.arweave_address);
-    
+
     // await retrievNearTransaction(userProfile);
 
     return base64url(JSON.stringify({ res: userProfile }));
@@ -148,7 +156,6 @@ async function getRss3Profile(eth_address) {
   }
 }
 
-
 async function getCrossbellsOf(evm_address) {
   try {
     const res = [];
@@ -190,7 +197,6 @@ async function getLensProtocolsActv(eth_address) {
   }
 }
 
-
 async function getAvvyProfile(evm_address) {
   try {
     const provider = new ethers.providers.JsonRpcProvider(
@@ -199,7 +205,25 @@ async function getAvvyProfile(evm_address) {
     const avvy = new AVVY(provider);
     const hash = await avvy.reverse(AVVY.RECORDS.EVM, evm_address);
     const name = await hash.lookup();
-    return name.name;
+    return name?.name;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function getEvmosProfile(evm_address) {
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(
+      EVMOS_MAINNET_RPC
+    );
+    const evmos = new ENS.default({
+      provider,
+      ensAddress: ENS.getEnsAddress("9001"),
+    });
+
+    const domain = await evmos.getName(evm_address);
+    return domain?.name;
   } catch (error) {
     console.log(error);
     return false;
@@ -395,7 +419,6 @@ async function getLinageeDomains(address) {
     return [];
   }
 }
-
 
 async function getGalaxyCreds(address) {
   try {
