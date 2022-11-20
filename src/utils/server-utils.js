@@ -53,6 +53,7 @@ export async function getArkProfile(network, address) {
     const koiiNfts = await getKoiiNfts(userProfile.arweave_address);
     const permapagesNfts = await getPermaPagesNfts(userProfile.arweave_address);
     const ercNfts = await getMoralisNfts(userProfile.evm_address);
+    const evmosNfts = await getEvmosNfts(userProfile.evm_address);
 
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
@@ -76,8 +77,8 @@ export async function getArkProfile(network, address) {
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
     userProfile.GALAXY_CREDS = await getGalaxyCreds(userProfile.evm_address);
     userProfile.ANFTS =
-      koiiNfts.length > 0 || permapagesNfts.length > 0
-        ? { koii: koiiNfts, permapages_img: permapagesNfts }
+      koiiNfts.length > 0 || permapagesNfts.length > 0 || evmosNfts.length > 0
+        ? { koii: koiiNfts, permapages_img: permapagesNfts, evmos_nfts: evmosNfts }
         : {};
     userProfile.ARWEAVE_TRANSACTIONS = await retrieveArtransactions(
       userProfile.arweave_address
@@ -238,6 +239,41 @@ async function getKoiiNfts(arweave_address) {
     return [];
   }
 }
+
+async function getEvmosNfts(evm_address) {
+  try {
+    const req = (
+      await axios.get(
+        `https://api.covalenthq.com/v1/9001/address/${evm_address}/balances_v2/?quote-currency=USD&format=JSON&nft=true&no-nft-fetch=false&key=${process.env.COVALENT_API_KEY}`
+      )
+    )?.data;
+    const nfts = req?.data?.items?.filter((item) => item.type === "nft");
+
+    for (const nft of nfts) {
+      const keepKeys = [
+        "contract_decimals",
+        "nft_data",
+        "contract_name",
+        "contract_ticker_symbol",
+        "contract_address",
+      ];
+      for (const key of Object.keys(nft)) {
+        !keepKeys.includes(key) ? delete nft[key] : void 0;
+      }
+      nft.token_id = nft?.nft_data?.[0]?.token_id;
+      nft.balance = nft?.nft_data?.[0]?.token_balance;
+      nft.name = nft?.nft_data?.[0]?.external_data?.name;
+      nft.description = nft?.nft_data?.[0]?.external_data?.description;
+      nft.image = nft?.nft_data?.[0]?.external_data?.image_512;
+
+      delete nft?.nft_data;
+    }
+    return nfts;
+  } catch (error) {
+    return [];
+  }
+}
+
 
 async function getPermaPagesNfts(arweave_address) {
   try {
@@ -400,7 +436,7 @@ async function getLinageeDomains(address) {
         format: "decimal",
         token_addresses: "0x2cc8342d7c8bff5a213eb2cde39de9a59b3461a7",
       },
-      headers: { accept: "application/json", "X-API-Key": "test" },
+      headers: { accept: "application/json", "X-API-Key": process.env.MORALIS_API_KEY },
     };
 
     const res = await axios.request(options);
