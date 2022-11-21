@@ -53,7 +53,6 @@ export async function getArkProfile(network, address) {
     const koiiNfts = await getKoiiNfts(userProfile.arweave_address);
     const permapagesNfts = await getPermaPagesNfts(userProfile.arweave_address);
     const ercNfts = await getMoralisNfts(userProfile.evm_address);
-    const evmosNfts = await getEvmosNfts(userProfile.evm_address);
 
     userProfile.ANS = await getAnsProfile(userProfile.arweave_address);
     userProfile.ENS = await getEnsProfile(userProfile.evm_address);
@@ -68,6 +67,7 @@ export async function getArkProfile(network, address) {
     userProfile.GITPOAPS = await getGitPoaps(userProfile.evm_address);
     userProfile.POAPS = await getAllPoaps(userProfile.evm_address);
     userProfile.ERC_NFTS = ercNfts;
+    userProfile.EVMOS_NFTS = await getEvmosNfts(userProfile.evm_address);
     userProfile.URBIT_IDS = ercNfts.filter(
       (nft) => nft.token_address == URBIT_ID_CONTRACT
     );
@@ -77,8 +77,8 @@ export async function getArkProfile(network, address) {
     userProfile.RSS3 = await getRss3Profile(userProfile.evm_address);
     userProfile.GALAXY_CREDS = await getGalaxyCreds(userProfile.evm_address);
     userProfile.ANFTS =
-      koiiNfts.length > 0 || permapagesNfts.length > 0 || evmosNfts.length > 0
-        ? { koii: koiiNfts, permapages_img: permapagesNfts, evmos_nfts: evmosNfts }
+      koiiNfts.length > 0 || permapagesNfts.length > 0
+        ? { koii: koiiNfts, permapages_img: permapagesNfts }
         : {};
     userProfile.ARWEAVE_TRANSACTIONS = await retrieveArtransactions(
       userProfile.arweave_address
