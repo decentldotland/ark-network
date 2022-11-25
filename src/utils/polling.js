@@ -12,17 +12,17 @@ export const cacheNode = new NodeCache();
 
 export async function runPolling() {
   try {
-    const arweaveLastBlock = (await getArweaveBlock())?.height;
+    // const arweaveLastBlock = (await getArweaveBlock())?.height;
 
-    if (!cacheNode.has("last-cached-block")) {
+    if (!cacheNode.has("oracle-cache-base64")) {
       const oracleState = await evaluateOracleState();
-      const filteredState = await _filterState(oracleState);
+      // const filteredState = await _filterState(oracleState);
 
-      for (const user of filteredState) {
-        await checkAndVerifyUser(user);
-      }
+      // for (const user of filteredState) {
+      //   await checkAndVerifyUser(user);
+      // }
 
-      cacheNode.set("last-cached-block", arweaveLastBlock);
+      cacheNode.set("last-cached-block", "deprecated");
       cacheNode.set(
         "oracle-cache-base64",
         base64url(JSON.stringify(oracleState))
@@ -30,27 +30,27 @@ export async function runPolling() {
       cacheNode.set("oracle-cache-sha256", sha256(JSON.stringify(oracleState)));
     }
 
-    const lastInteractionBlock = await getLastInteractionBlock();
-    if (
-      cacheNode.has("last-cached-block") &&
-      cacheNode.get("last-cached-block") < lastInteractionBlock
-    ) {
-      const oracleState = await evaluateOracleState();
-      const filteredState = await _filterState(oracleState);
+    return;
 
-      for (const user of filteredState) {
-        await checkAndVerifyUser(user);
-      }
+    // const lastInteractionBlock = await getLastInteractionBlock();
+    // if (
+    //   cacheNode.has("last-cached-block") &&
+    //   cacheNode.get("last-cached-block") < lastInteractionBlock
+    // ) {
+    //   const oracleState = await evaluateOracleState();
+    //   const filteredState = await _filterState(oracleState);
 
-      cacheNode.set("last-cached-block", arweaveLastBlock);
-      cacheNode.set(
-        "oracle-cache-base64",
-        base64url(JSON.stringify(oracleState))
-      );
-      cacheNode.set("oracle-cache-sha256", sha256(JSON.stringify(oracleState)));
+    //   for (const user of filteredState) {
+    //     await checkAndVerifyUser(user);
+    //   }
 
-
-    }
+    //   cacheNode.set("last-cached-block", arweaveLastBlock);
+    //   cacheNode.set(
+    //     "oracle-cache-base64",
+    //     base64url(JSON.stringify(oracleState))
+    //   );
+    //   cacheNode.set("oracle-cache-sha256", sha256(JSON.stringify(oracleState)));
+    // }
   } catch (error) {
     console.log(error);
   }
