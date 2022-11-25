@@ -9,6 +9,9 @@
 ## Synopsis
 Ark Network is a protocol for verified multi-chain addresses (identities) linking. The protocol consists of an oracle address on Arweave network and other data registry contracts on EVM (and possibly non-EVM chains) with a validation backend. The protocol support Telegram identity linkage with the multi-chain addresses as well.
 
+## Disclaimer
+Ark V1 Node (Ark Network) has been deprecated in favor of Ark V2 (Ark Protocol), the current node does not process the verification of any new identity linking request. However, it is still available in read mode only. [Check Ark Protocol - V2 here!](https://github.com/decentldotland/ark-protocol)
+
 ## Install & run it
 
 ```sh
